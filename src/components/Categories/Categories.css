@@ -1,0 +1,268 @@
+/* ============================================================
+   Universal Edge — Categories Section Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Section Wrapper ─────────────────────────────────────── */
+.categories-section {
+  width: 100%;
+  padding: 80px 40px;
+  background: #f8f7f4;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Section Header ──────────────────────────────────────── */
+.categories-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.categories-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e8c87a;
+  margin-bottom: 12px;
+}
+
+.categories-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  color: #0f0f0f;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px 0;
+  line-height: 1.1;
+}
+
+.categories-title span {
+  color: #e8c87a;
+}
+
+.categories-divider {
+  width: 48px;
+  height: 3px;
+  background: #e8c87a;
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* ── Grid ────────────────────────────────────────────────── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.category-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 3 / 4;
+  background: #e0ddd8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: block;
+}
+
+.category-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.16);
+}
+
+/* Card background image */
+.card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-card:hover .card-image {
+  transform: scale(1.08);
+}
+
+/* Dark gradient overlay at bottom */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.04) 0%,
+    rgba(0, 0, 0, 0.12) 40%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+  transition: background 0.35s ease;
+}
+
+.category-card:hover .card-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.06) 0%,
+    rgba(0, 0, 0, 0.18) 40%,
+    rgba(0, 0, 0, 0.82) 100%
+  );
+}
+
+/* Card text content at bottom */
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 22px 20px;
+  z-index: 2;
+}
+
+.card-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 6px;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover .card-icon {
+  transform: scale(1.15);
+}
+
+.card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+
+.card-count {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.62);
+  letter-spacing: 0.04em;
+  display: block;
+}
+
+/* Arrow appears on hover */
+.card-arrow {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  z-index: 2;
+}
+
+.card-arrow svg {
+  width: 15px;
+  height: 15px;
+  stroke: #fff;
+}
+
+.category-card:hover .card-arrow {
+  opacity: 1;
+  transform: scale(1);
+  background: #e8c87a;
+  border-color: #e8c87a;
+}
+
+.category-card:hover .card-arrow svg {
+  stroke: #000;
+}
+
+/* ── View All Button ─────────────────────────────────────── */
+.categories-footer {
+  text-align: center;
+  margin-top: 44px;
+}
+
+.view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 32px;
+  background: transparent;
+  border: 1.5px solid #0f0f0f;
+  border-radius: 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #0f0f0f;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.view-all-btn:hover {
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+.view-all-btn svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  transition: transform 0.25s ease;
+}
+
+.view-all-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* ── Mobile Responsive ───────────────────────────────────── */
+@media (max-width: 900px) {
+  .categories-section {
+    padding: 60px 20px;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-section {
+    padding: 48px 16px;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card-name {
+    font-size: 16px;
+  }
+
+  .card-icon {
+    font-size: 20px;
+  }
+
+  .categories-header {
+    margin-bottom: 32px;
+  }
+}

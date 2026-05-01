@@ -1,0 +1,311 @@
+/* ============================================================
+   Universal Edge — Hero Section Styles
+   Font: Syne (headings) + DM Sans (body)
+   Theme: Dark luxury e-commerce
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --gold: #e8c87a;
+  --gold-dark: #c9a84c;
+  --white: #ffffff;
+  --speed: 0.4s;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Hero Wrapper ─────────────────────────────────────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Slides Container ─────────────────────────────────────── */
+.hero-slides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Each individual slide */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out, transform 6s ease-in-out;
+  transform: scale(1.06);
+}
+
+/* Active slide fades in and slightly zooms */
+.hero-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Dark Overlay for text readability ────────────────────── */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+  z-index: 1;
+}
+
+/* ── Text Content ─────────────────────────────────────────── */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+  max-width: 780px;
+  animation: heroFadeUp 1s ease both;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge above heading */
+.hero-badge {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(232, 200, 122, 0.4);
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+  animation: heroFadeUp 1s 0.1s ease both;
+}
+
+/* Main heading */
+.hero-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(26px, 7vw, 62px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px 0;
+  animation: heroFadeUp 1s 0.2s ease both;
+}
+
+.hero-heading span {
+  color: var(--gold);
+}
+
+/* Subheading */
+.hero-subheading {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+  margin: 0 0 36px 0;
+  letter-spacing: 0.01em;
+  animation: heroFadeUp 1s 0.3s ease both;
+}
+
+/* ── Shop Now Button (button-89 style) ───────────────────── */
+.hero-btn-wrap {
+  animation: heroFadeUp 1s 0.4s ease both;
+}
+
+.button-89 {
+  --b: 3px;
+  --s: 0.45em;
+  --color: #8b8980;
+
+  padding: calc(0.6em + var(--s)) calc(1.2em + var(--s));
+  color: var(--color);
+  --_p: var(--s);
+  background: conic-gradient(
+      from 90deg at var(--b) var(--b),
+      #0000 90deg,
+      var(--color) 0
+    )
+    var(--_p) var(--_p) /
+    calc(100% - var(--b) - 2 * var(--_p))
+    calc(100% - var(--b) - 2 * var(--_p));
+  transition: 0.3s linear, color 0s, background-color 0s;
+  outline: var(--b) solid #0000;
+  outline-offset: 0.6em;
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  border: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  text-transform: uppercase;
+}
+
+.button-89:hover,
+.button-89:focus-visible {
+  --_p: 0px;
+  outline-color: var(--color);
+  outline-offset: 0.05em;
+}
+
+.button-89:active {
+  background: var(--color);
+  color: #000;
+}
+
+/* ── Slider Dots ──────────────────────────────────────────── */
+.hero-dots {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+}
+
+.hero-dot.active {
+  width: 28px;
+  border-radius: 4px;
+  background: var(--gold);
+}
+
+/* ── Prev / Next Arrows ───────────────────────────────────── */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.hero-arrow:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #000;
+}
+
+.hero-arrow svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+.hero-arrow.prev { left: 24px; }
+.hero-arrow.next { right: 24px; }
+
+/* ── Slide counter (top right) ────────────────────────────── */
+.hero-counter {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  z-index: 3;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.1em;
+}
+
+.hero-counter span {
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ── Scroll hint ──────────────────────────────────────────── */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(0.7); }
+}
+
+/* ── Mobile Responsive ────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hero { min-height: 100svh; }
+
+  .hero-arrow { display: none; }
+
+  .hero-scroll-hint { display: none; }
+
+  .hero-counter {
+    top: 20px;
+    right: 16px;
+    font-size: 11px;
+  }
+
+  .hero-dots { bottom: 24px; }
+
+  .hero-content { padding: 0 16px; }
+
+  .button-89 {
+    font-size: 14px;
+    padding: calc(0.55em + var(--s)) calc(1em + var(--s));
+  }
+}
