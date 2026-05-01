@@ -20,7 +20,7 @@
 
 .categories-tag {
   display: inline-block;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -30,7 +30,7 @@
 
 .categories-title {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(20px, 4vw, 30px);
   font-weight: 800;
   color: #0f0f0f;
   letter-spacing: -0.02em;
@@ -45,7 +45,7 @@
 .categories-divider {
   width: 48px;
   height: 3px;
-  background: #e8c87a;
+  background: #362d14;
   border-radius: 2px;
   margin: 0 auto;
 }
