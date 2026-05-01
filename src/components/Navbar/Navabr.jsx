@@ -44,7 +44,7 @@ const NAV_LINKS = [
 /* ══════════════════════════════════════════════════════════
    Navbar Component
    ══════════════════════════════════════════════════════════ */
-export default function Navbar({ cartCount = 3 }) {
+export default function Navbar({ cartCount = 1 }) {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [scrolled, setScrolled]   = useState(false);
   const [searchVal, setSearchVal] = useState("");
