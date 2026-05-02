@@ -119,7 +119,7 @@ export default function FeaturedProducts() {
   };
 
   return (
-    <section className="products-section">
+    <section className="products-section" id="products">
 
       {/* ── Section Header ── */}
       <div className="products-header">

@@ -3,7 +3,8 @@ import Hero from "../components/Hero/Hero.jsx";
 import Navbar from "../components/Navbar/Navabr.jsx";
 import Categories from "../components/Categories/Categories.jsx";
 import FeaturedProducts from "../components/Features/Featuredproducts.jsx";
-
+import Contact from "../components/Contact/contact.jsx";
+import Footer from "../components/Footer/Footer.jsx";
 
 export default function Home() {
     return (
@@ -12,6 +13,8 @@ export default function Home() {
           <Hero />
           <Categories />
           <FeaturedProducts />
+          <Contact />
+          <Footer />
         </>
     );
 }

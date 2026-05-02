@@ -60,6 +60,7 @@ export default function Hero() {
 
   return (
     <section
+      id="home"
       className="hero"
       onMouseEnter={() => setPaused(true)}   // pause on hover
       onMouseLeave={() => setPaused(false)}  // resume on leave

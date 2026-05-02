@@ -57,7 +57,7 @@ export default function Categories() {
   };
 
   return (
-    <section className="categories-section">
+    <section className="categories-section" id="categories">
 
       {/* ── Section Header ── */}
       <div className="categories-header">
