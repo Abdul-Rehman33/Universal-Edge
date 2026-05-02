@@ -8,8 +8,8 @@ import Home from "./pages/Home.jsx";
   // import ProductDetail from "./pages/ProductDetail.jsx";
   // import Cart from "./pages/Cart.jsx";
   // import Checkout from "./pages/Checkout.jsx";
-  // import Login from "./pages/Login.jsx";
-  // import Signup from "./pages/Signup.jsx";
+  import Login from "./pages/Login.jsx";
+  import Signup from "./pages/Signup.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  MAIN APP COMPONENT WITH ROUTES
@@ -26,8 +26,8 @@ export default function App() {
         {/* <Route path="/products/:id" element={<ProductDetail />} /> */}
         {/* <Route path="/cart" element={<Cart />} /> */}
         {/* <Route path="/checkout" element={<Checkout />} /> */}
-        {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
         {/* 404 fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

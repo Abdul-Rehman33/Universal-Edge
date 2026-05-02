@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../assets/Logo.png";
 
@@ -49,6 +50,7 @@ export default function Navbar({ cartCount = 1 }) {
   const [scrolled, setScrolled]   = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const drawerRef = useRef(null);
+  const navigate = useNavigate();
 
   /* Scroll detection */
   useEffect(() => {
@@ -106,7 +108,7 @@ export default function Navbar({ cartCount = 1 }) {
             )}
           </button>
 
-          <button className="uem-login-btn">
+          <button className="uem-login-btn" onClick={() => navigate("/login")}>
             Login / Signup
           </button>
         </div>
@@ -188,7 +190,7 @@ export default function Navbar({ cartCount = 1 }) {
               </span>
             )}
           </a>
-          <button className="uem-login-btn-full">
+          <button className="uem-login-btn-full" onClick={() => { closeMenu(); navigate("/login"); }}>
             Login / Signup
           </button>
         </div>
