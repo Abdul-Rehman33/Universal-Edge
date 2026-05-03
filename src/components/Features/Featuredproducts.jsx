@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./FeaturedProducts.css";
 
 // ─────────────────────────────────────────────────────────────
@@ -89,6 +90,7 @@ const FILTERS = ["All", "Shoes", "Perfumes", "Clothing", "Accessories"];
 //  FEATURED PRODUCTS COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function FeaturedProducts() {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [cartAdded,    setCartAdded]    = useState([]); // track added to cart
   const [wishlist,     setWishlist]     = useState([]); // track wishlist
@@ -149,7 +151,7 @@ export default function FeaturedProducts() {
           <div
             key={product.id}
             className="product-card"
-            onClick={() => console.log(`View product: ${product.name}`)}
+            onClick={() => navigate(`/products/${product.id}`)}
           >
 
             {/* Image Area */}
@@ -224,7 +226,7 @@ export default function FeaturedProducts() {
 
       {/* ── View All Button ── */}
       <div className="products-footer">
-        <button className="products-view-all">
+        <button className="products-view-all" onClick={() => navigate("/products")}>
           View All Products
           <svg viewBox="0 0 24 24" fill="none"
             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
