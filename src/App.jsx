@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //  PAGES IMPORT
 // ─────────────────────────────────────────────────────────────
 import Home from "./pages/Home.jsx";
-  // import Products from "./pages/Products.jsx";
+  import Products from "./pages/Products.jsx";
   // import ProductDetail from "./pages/ProductDetail.jsx";
   // import Cart from "./pages/Cart.jsx";
   // import Checkout from "./pages/Checkout.jsx";
@@ -22,7 +22,7 @@ export default function App() {
 
         {/* Public routes */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/products" element={<Products />} /> */}
+        <Route path="/products" element={<Products />} />
         {/* <Route path="/products/:id" element={<ProductDetail />} /> */}
         {/* <Route path="/cart" element={<Cart />} /> */}
         {/* <Route path="/checkout" element={<Checkout />} /> */}

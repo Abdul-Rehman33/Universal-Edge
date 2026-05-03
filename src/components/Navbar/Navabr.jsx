@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../assets/Logo.png";
 
@@ -36,10 +36,10 @@ const LockIcon = () => (
 
 /* ── Nav Links data ───────────────────────────────────── */
 const NAV_LINKS = [
-  { label: "Home",       href: "#home" },
-  { label: "Products",   href: "#products" },
-  { label: "About Us",   href: "#about" },
-  { label: "Contact Us", href: "#contact", className: "contact" },
+  { label: "Home",       href: "/" },
+  { label: "Products",   href: "/products" },
+  { label: "About Us",   href: "/#about" },
+  { label: "Contact Us", href: "/#contact", className: "contact" },
 ];
 
 /* ══════════════════════════════════════════════════════════
@@ -51,6 +51,10 @@ export default function Navbar({ cartCount = 1 }) {
   const [searchVal, setSearchVal] = useState("");
   const drawerRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const getHref = (href) => (isHome && href.startsWith("/#") ? href.substring(1) : href);
 
   /* Scroll detection */
   useEffect(() => {
@@ -74,16 +78,20 @@ export default function Navbar({ cartCount = 1 }) {
       <nav className={`uem-nav${scrolled ? " scrolled" : ""}`} role="navigation" aria-label="Main navigation">
 
         {/* Logo */}
-        <a href="#home" className="uem-logo" aria-label="Universal Edge Mart — Home">
+        <Link to="/" className="uem-logo" aria-label="Universal Edge Mart — Home">
           <img src={logo} alt="Universal Edge Mart Logo" className="uem-logo-img" />
           <span className="uem-logo-text">Universal <span>Edge</span></span>
-        </a>
+        </Link>
 
         {/* Center links — desktop only */}
         <ul className="uem-links" role="list">
           {NAV_LINKS.map(({ label, href, className }) => (
             <li key={label}>
-              <a href={href} className={className ?? ""}>{label}</a>
+              {href.startsWith("/#") ? (
+                <a href={getHref(href)} className={className ?? ""}>{label}</a>
+              ) : (
+                <Link to={href} className={className ?? ""}>{label}</Link>
+              )}
             </li>
           ))}
         </ul>
@@ -145,10 +153,10 @@ export default function Navbar({ cartCount = 1 }) {
       >
         {/* Drawer header */}
         <div className="uem-drawer-header">
-          <a href="#home" className="uem-logo" onClick={closeMenu} aria-label="Home">
+          <Link to="/" className="uem-logo" onClick={closeMenu} aria-label="Home">
             <img src={logo} alt="Universal Edge Mart Logo" className="uem-logo-img" />
             <span className="uem-logo-text">Universal <span>Edge</span> Mart</span>
-          </a>
+          </Link>
           <button className="uem-drawer-close" onClick={closeMenu} aria-label="Close menu">
             <CloseIcon />
           </button>
@@ -172,9 +180,15 @@ export default function Navbar({ cartCount = 1 }) {
         <ul className="uem-drawer-links" role="list">
           {NAV_LINKS.map(({ label, href, className }) => (
             <li key={label}>
-              <a href={href} className={className ?? ""} onClick={closeMenu}>
-                {label}
-              </a>
+              {href.startsWith("/#") ? (
+                <a href={getHref(href)} className={className ?? ""} onClick={closeMenu}>
+                  {label}
+                </a>
+              ) : (
+                <Link to={href} className={className ?? ""} onClick={closeMenu}>
+                  {label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
