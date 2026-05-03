@@ -51,10 +51,6 @@ export default function Navbar({ cartCount = 1 }) {
   const [searchVal, setSearchVal] = useState("");
   const drawerRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation();
-  const isHome = location.pathname === "/";
-
-  const getHref = (href) => (isHome && href.startsWith("/#") ? href.substring(1) : href);
 
   /* Scroll detection */
   useEffect(() => {
@@ -87,11 +83,7 @@ export default function Navbar({ cartCount = 1 }) {
         <ul className="uem-links" role="list">
           {NAV_LINKS.map(({ label, href, className }) => (
             <li key={label}>
-              {href.startsWith("/#") ? (
-                <a href={getHref(href)} className={className ?? ""}>{label}</a>
-              ) : (
-                <Link to={href} className={className ?? ""}>{label}</Link>
-              )}
+              <Link to={href} className={className ?? ""}>{label}</Link>
             </li>
           ))}
         </ul>
@@ -180,15 +172,9 @@ export default function Navbar({ cartCount = 1 }) {
         <ul className="uem-drawer-links" role="list">
           {NAV_LINKS.map(({ label, href, className }) => (
             <li key={label}>
-              {href.startsWith("/#") ? (
-                <a href={getHref(href)} className={className ?? ""} onClick={closeMenu}>
-                  {label}
-                </a>
-              ) : (
-                <Link to={href} className={className ?? ""} onClick={closeMenu}>
-                  {label}
-                </Link>
-              )}
+              <Link to={href} className={className ?? ""} onClick={closeMenu}>
+                {label}
+              </Link>
             </li>
           ))}
         </ul>

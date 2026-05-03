@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 import logo from "../../assets/Logo.png";
 
@@ -6,11 +7,11 @@ import logo from "../../assets/Logo.png";
 //  QUICK LINKS DATA
 // ─────────────────────────────────────────────────────────────
 const QUICK_LINKS = [
-  { label: "Home",        href: "#home" },
-  { label: "Products",    href: "#products" },
-  { label: "Categories",  href: "#categories" },
-  { label: "About Us",    href: "#about" },
-  { label: "Contact Us",  href: "#contact" },
+  { label: "Home",        href: "/" },
+  { label: "Products",    href: "/products" },
+  { label: "Categories",  href: "/#categories" },
+  { label: "About Us",    href: "/#about" },
+  { label: "Contact Us",  href: "/#contact" },
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -183,7 +184,7 @@ export default function Footer() {
           <ul className="footer-links">
             {QUICK_LINKS.map((link) => (
               <li key={link.label}>
-                <a href={link.href}>{link.label}</a>
+                <Link to={link.href}>{link.label}</Link>
               </li>
             ))}
           </ul>
