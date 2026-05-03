@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
-import Logo from "../assets/Logo.png"
+import Logo from "../../../assets/Logo.png"
 
 // ─────────────────────────────────────────────────────────────
 //  SIGNUP PAGE

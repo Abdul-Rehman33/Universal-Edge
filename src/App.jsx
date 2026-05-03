@@ -4,12 +4,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //  PAGES IMPORT
 // ─────────────────────────────────────────────────────────────
 import Home from "./pages/Home.jsx";
-  import Products from "./pages/Products.jsx";
-  import ProductDetail from "./pages/ProductDetail.jsx";
-  // import Cart from "./pages/Cart.jsx";
-  // import Checkout from "./pages/Checkout.jsx";
-  import Login from "./pages/Login.jsx";
-  import Signup from "./pages/Signup.jsx";
+import Products from "./pages/Products/Products.jsx";
+import ProductDetail from "./pages/Product Detail/ProductDetail.jsx";
+import Cart from "./pages/Cart/Cart.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import Login from "./pages/LogIn/SignUp/Login.jsx";
+import Signup from "./pages/LogIn/SignUp/Signup.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  MAIN APP COMPONENT WITH ROUTES
@@ -24,8 +24,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
-        {/* <Route path="/cart" element={<Cart />} /> */}
-        {/* <Route path="/checkout" element={<Checkout />} /> */}
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 

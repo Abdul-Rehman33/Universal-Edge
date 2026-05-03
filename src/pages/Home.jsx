@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Hero from "../components/Hero/Hero.jsx";
-import Navbar from "../components/Navbar/Navabr.jsx";
+import Navbar from "../components/Navbar/Navbar.jsx";
 import Categories from "../components/Categories/Categories.jsx";
 import FeaturedProducts from "../components/Features/Featuredproducts.jsx";
 import Contact from "../components/Contact/contact.jsx";
@@ -28,12 +28,12 @@ export default function Home() {
 
     return (
         <>
-          <Navbar />
-          <Hero />
-          <Categories />
-          <FeaturedProducts />
-          <Contact />
-          <Footer />
+            <Navbar />
+            <Hero />
+            <Categories />
+            <FeaturedProducts />
+            <Contact />
+            <Footer />
         </>
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import Navbar from "../components/Navbar/Navabr.jsx";
-import Footer from "../components/Footer/Footer.jsx";
+import Navbar from "../../components/Navbar/Navbar.jsx";
+import Footer from "../../components/Footer/Footer.jsx";
 import "./ProductDetail.css";
 
 // ─────────────────────────────────────────────────────────────
@@ -127,44 +127,44 @@ const ALL_PRODUCTS = [
 
 // Dummy reviews data
 const DUMMY_REVIEWS = [
-  { id: 1, name: "Ahmed K.",   date: "Apr 2025", rating: 5, text: "Amazing quality! Exactly as described. Fast delivery too. Highly recommended for anyone looking for premium products." },
-  { id: 2, name: "Sara M.",   date: "Mar 2025", rating: 4, text: "Great product overall. Packaging was neat and the item arrived in perfect condition. Will definitely order again." },
-  { id: 3, name: "Usman R.",  date: "Feb 2025", rating: 5, text: "Absolutely love it! The quality exceeded my expectations. Universal Edge never disappoints." },
+  { id: 1, name: "Ahmed K.", date: "Apr 2025", rating: 5, text: "Amazing quality! Exactly as described. Fast delivery too. Highly recommended for anyone looking for premium products." },
+  { id: 2, name: "Sara M.", date: "Mar 2025", rating: 4, text: "Great product overall. Packaging was neat and the item arrived in perfect condition. Will definitely order again." },
+  { id: 3, name: "Usman R.", date: "Feb 2025", rating: 5, text: "Absolutely love it! The quality exceeded my expectations. Universal Edge never disappoints." },
 ];
 
 // Rating bar percentages
 const RATING_BARS = [
   { stars: 5, pct: 68 },
   { stars: 4, pct: 20 },
-  { stars: 3, pct: 7  },
-  { stars: 2, pct: 3  },
-  { stars: 1, pct: 2  },
+  { stars: 3, pct: 7 },
+  { stars: 2, pct: 3 },
+  { stars: 1, pct: 2 },
 ];
 
 // Info cards data
 const INFO_CARDS = [
-  { icon: "💵", title: "Cash on Delivery",    sub: "Available nationwide"  },
+  { icon: "💵", title: "Cash on Delivery", sub: "Available nationwide" },
   { icon: "📱", title: "EasyPaisa / JazzCash", sub: "Secure online payment" },
-  { icon: "🚚", title: "Fast Delivery",        sub: "2–4 business days"    },
-  { icon: "🔒", title: "Secure Shopping",      sub: "100% safe & private"  },
+  { icon: "🚚", title: "Fast Delivery", sub: "2–4 business days" },
+  { icon: "🔒", title: "Secure Shopping", sub: "100% safe & private" },
 ];
 
 // ─────────────────────────────────────────────────────────────
 //  PRODUCT DETAIL PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function ProductDetail() {
-  const { id }     = useParams();
-  const navigate   = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   // Find product by id
   const product = ALL_PRODUCTS.find((p) => p.id === Number(id));
 
   // State
-  const [activeImg,   setActiveImg]   = useState(0);
-  const [switching,   setSwitching]   = useState(false);
-  const [quantity,    setQuantity]    = useState(1);
-  const [activeTab,   setActiveTab]   = useState("description");
-  const [cartAdded,   setCartAdded]   = useState(false);
+  const [activeImg, setActiveImg] = useState(0);
+  const [switching, setSwitching] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState("description");
+  const [cartAdded, setCartAdded] = useState(false);
 
   // Reset when product changes
   useEffect(() => {
@@ -358,7 +358,7 @@ export default function ProductDetail() {
                   <>
                     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5"
                       strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
+                      <polyline points="20 6 9 17 4 12" />
                     </svg>
                     Added to Cart!
                   </>
@@ -366,9 +366,9 @@ export default function ProductDetail() {
                   <>
                     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                       strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                      <line x1="3" y1="6" x2="21" y2="6"/>
-                      <path d="M16 10a4 4 0 01-8 0"/>
+                      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <path d="M16 10a4 4 0 01-8 0" />
                     </svg>
                     Add to Cart
                   </>

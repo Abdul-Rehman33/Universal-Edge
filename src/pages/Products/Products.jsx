@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar/Navabr.jsx";
-import Footer from "../components/Footer/Footer.jsx";
+import Navbar from "../../components/Navbar/Navbar.jsx";
+import Footer from "../../components/Footer/Footer.jsx";
 import "./Products.css";
 
 // ─────────────────────────────────────────────────────────────
@@ -201,20 +201,20 @@ const PRODUCTS_DATA = [
 
 // Category filter options
 const CATEGORIES = [
-  { label: "All",         emoji: "🛍️" },
-  { label: "Shoes",       emoji: "👟" },
-  { label: "Perfumes",    emoji: "🌸" },
-  { label: "Clothing",    emoji: "👕" },
+  { label: "All", emoji: "🛍️" },
+  { label: "Shoes", emoji: "👟" },
+  { label: "Perfumes", emoji: "🌸" },
+  { label: "Clothing", emoji: "👕" },
   { label: "Accessories", emoji: "⌚" },
 ];
 
 // Sort options
 const SORT_OPTIONS = [
-  { value: "default",    label: "Default"         },
-  { value: "price-asc",  label: "Price: Low → High" },
+  { value: "default", label: "Default" },
+  { value: "price-asc", label: "Price: Low → High" },
   { value: "price-desc", label: "Price: High → Low" },
-  { value: "rating",     label: "Top Rated"       },
-  { value: "newest",     label: "Newest First"    },
+  { value: "rating", label: "Top Rated" },
+  { value: "newest", label: "Newest First" },
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -239,7 +239,7 @@ function StarRating({ rating }) {
 //  PRODUCT CARD COMPONENT
 // ─────────────────────────────────────────────────────────────
 function ProductCard({ product, onAddToCart, onViewDetail }) {
-  const [wished,    setWished]    = useState(false);
+  const [wished, setWished] = useState(false);
   const [cartAdded, setCartAdded] = useState(false);
 
   // Calculate discount percentage
@@ -271,8 +271,8 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
         {/* Badge */}
         {product.badge && (
           <span className={`product-card-badge ${product.badge}`}>
-            {product.badge === "new"  ? "New"  :
-             product.badge === "sale" ? "Sale" : "Hot 🔥"}
+            {product.badge === "new" ? "New" :
+              product.badge === "sale" ? "Sale" : "Hot 🔥"}
           </span>
         )}
 
@@ -284,7 +284,7 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
         >
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
             strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
           </svg>
         </button>
 
@@ -330,7 +330,7 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
             <>
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5"
                 strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
+                <polyline points="20 6 9 17 4 12" />
               </svg>
               Added!
             </>
@@ -338,9 +338,9 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
             <>
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                 strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <path d="M16 10a4 4 0 01-8 0"/>
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 01-8 0" />
               </svg>
               Add to Cart
             </>
@@ -357,9 +357,9 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
 export default function Products() {
   const navigate = useNavigate();
 
-  const [search,   setSearch]   = useState("");
+  const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
-  const [sort,     setSort]     = useState("default");
+  const [sort, setSort] = useState("default");
 
   // Filter + sort products using useMemo for performance
   const filteredProducts = useMemo(() => {
@@ -382,11 +382,11 @@ export default function Products() {
 
     // 3. Sort
     switch (sort) {
-      case "price-asc":  list.sort((a, b) => a.price - b.price);         break;
-      case "price-desc": list.sort((a, b) => b.price - a.price);         break;
-      case "rating":     list.sort((a, b) => b.rating - a.rating);       break;
-      case "newest":     list.sort((a, b) => b.id - a.id);               break;
-      default:           break;
+      case "price-asc": list.sort((a, b) => a.price - b.price); break;
+      case "price-desc": list.sort((a, b) => b.price - a.price); break;
+      case "rating": list.sort((a, b) => b.rating - a.rating); break;
+      case "newest": list.sort((a, b) => b.id - a.id); break;
+      default: break;
     }
 
     return list;
@@ -430,8 +430,8 @@ export default function Products() {
             <div className="products-search-box">
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                 strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
               <input
                 className="products-search-input"

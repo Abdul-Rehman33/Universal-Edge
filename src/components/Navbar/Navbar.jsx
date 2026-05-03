@@ -101,7 +101,7 @@ export default function Navbar({ cartCount = 1 }) {
             />
           </div>
 
-          <button className="uem-icon-btn" aria-label={`Cart — ${cartCount} items`}>
+          <button className="uem-icon-btn" aria-label={`Cart — ${cartCount} items`} onClick={() => navigate("/cart")}>
             <CartIcon />
             {cartCount > 0 && (
               <span className="uem-cart-badge" aria-hidden="true">{cartCount}</span>
@@ -181,7 +181,7 @@ export default function Navbar({ cartCount = 1 }) {
 
         {/* Drawer bottom actions */}
         <div className="uem-drawer-actions">
-          <a href="#cart" className="uem-drawer-cart" onClick={closeMenu}>
+          <Link to="/cart" className="uem-drawer-cart" onClick={closeMenu}>
             <CartIcon />
             My Cart
             {cartCount > 0 && (
@@ -189,7 +189,7 @@ export default function Navbar({ cartCount = 1 }) {
                 {cartCount}
               </span>
             )}
-          </a>
+          </Link>
           <button className="uem-login-btn-full" onClick={() => { closeMenu(); navigate("/login"); }}>
             Login / Signup
           </button>
