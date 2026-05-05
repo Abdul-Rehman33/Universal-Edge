@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // ─────────────────────────────────────────────────────────────
 //  PAGES IMPORT
 // ─────────────────────────────────────────────────────────────
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import Home from "./pages/Home.jsx";
-// import About from "./pages/About Us/AboutUs.jsx";
+import About from "./pages/About Us/AboutUs.jsx";
 import Products from "./pages/Products/Products.jsx";
 import ProductDetail from "./pages/Product Detail/ProductDetail.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
@@ -18,12 +19,13 @@ import Signup from "./pages/LogIn/SignUp/Signup.jsx";
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Protected routes can be added later */}
 
         {/* Public routes */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/about" element={<About />} /> */}
+        <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />

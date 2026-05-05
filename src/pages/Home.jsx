@@ -7,6 +7,7 @@ import FeaturedProducts from "../components/Features/Featuredproducts.jsx";
 import Contact from "../components/Contact/contact.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 
+
 export default function Home() {
     const location = useLocation();
 

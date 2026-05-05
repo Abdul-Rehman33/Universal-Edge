@@ -38,7 +38,7 @@ const LockIcon = () => (
 const NAV_LINKS = [
   { label: "Home",       href: "/" },
   { label: "Products",   href: "/products" },
-  { label: "About Us",   href: "/#about" },
+  { label: "About Us",   href: "/about" },
   { label: "Contact Us", href: "/#contact", className: "contact" },
 ];
 
