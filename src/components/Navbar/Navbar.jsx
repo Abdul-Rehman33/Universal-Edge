@@ -37,19 +37,19 @@ const LockIcon = () => (
 
 /* ── Nav Links data ───────────────────────────────────── */
 const NAV_LINKS = [
-  { label: "Home",       href: "/" },
-  { label: "Products",   href: "/products" },
-  { label: "About Us",   href: "/about" },
+  { label: "Home", href: "/" },
+  { label: "Products", href: "/products" },
+  { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/#contact", className: "contact" },
 ];
 
 /* ══════════════════════════════════════════════════════════
    Navbar Component
    ══════════════════════════════════════════════════════════ */
-export default function Navbar() {
-  const { totalItems } = useCart();
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [scrolled, setScrolled]   = useState(false);
+export default function Navbar({ cartCount = 1 }) {
+  const { cart } = useCart();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const drawerRef = useRef(null);
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const openMenu  = () => setMenuOpen(true);
+  const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -103,10 +103,10 @@ export default function Navbar() {
             />
           </div>
 
-          <button className="uem-icon-btn" aria-label={`Cart — ${totalItems} items`} onClick={() => navigate("/cart")}>
+          <button className="uem-icon-btn" aria-label={`Cart — ${cartCount} items`} onClick={() => navigate("/cart")}>
             <CartIcon />
-            {totalItems > 0 && (
-              <span className="uem-cart-badge" aria-hidden="true">{totalItems}</span>
+            {cartCount > 0 && (
+              <span className="uem-cart-badge" aria-hidden="true">{cartCount}</span>
             )}
           </button>
 
@@ -186,9 +186,9 @@ export default function Navbar() {
           <Link to="/cart" className="uem-drawer-cart" onClick={closeMenu}>
             <CartIcon />
             My Cart
-            {totalItems > 0 && (
+            {cartCount > 0 && (
               <span className="uem-cart-badge" style={{ position: "static", marginLeft: "auto" }}>
-                {totalItems}
+                {cartCount}
               </span>
             )}
           </Link>
