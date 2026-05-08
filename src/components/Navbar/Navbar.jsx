@@ -92,13 +92,28 @@ export default function Navbar() {
 
         {/* Right — desktop only */}
         <div className="uem-right">
-          <div className="uem-search" role="search">
+          <div
+            className="uem-search"
+            role="search"
+            onClick={() => {
+              if (searchVal.trim()) {
+                navigate(`/products?search=${encodeURIComponent(searchVal.trim())}`);
+                setSearchVal("");
+              }
+            }}
+          >
             <SearchIcon />
             <input
               type="text"
               placeholder="Search…"
               value={searchVal}
               onChange={e => setSearchVal(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === "Enter" && searchVal.trim()) {
+                  navigate(`/products?search=${encodeURIComponent(searchVal.trim())}`);
+                  setSearchVal("");
+                }
+              }}
               aria-label="Search products"
             />
           </div>
@@ -165,6 +180,13 @@ export default function Navbar() {
               placeholder="Search products…"
               value={searchVal}
               onChange={e => setSearchVal(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === "Enter" && searchVal.trim()) {
+                  navigate(`/products?search=${encodeURIComponent(searchVal.trim())}`);
+                  setSearchVal("");
+                  closeMenu();
+                }
+              }}
               aria-label="Search products"
             />
           </div>

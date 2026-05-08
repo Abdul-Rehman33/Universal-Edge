@@ -1,38 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
+import { useCart } from "../../Context/CartContext.jsx";
 import "./Checkout.css";
 
-// ─────────────────────────────────────────────────────────────
-//  DUMMY ORDER ITEMS
-//  Later: get these from Cart Context / state
-// ─────────────────────────────────────────────────────────────
-const ORDER_ITEMS = [
-  {
-    id: 1,
-    name: "Nike Air Max 270",
-    qty: 1,
-    price: 12500,
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&q=80",
-  },
-  {
-    id: 2,
-    name: "Dior Sauvage EDP",
-    qty: 2,
-    price: 8900,
-    image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=200&q=80",
-  },
-  {
-    id: 4,
-    name: "Casio G-Shock Watch",
-    qty: 1,
-    price: 6200,
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80",
-  },
-];
-
-// Delivery settings
+// Delivery settings (must match CartContext)
 const FREE_DELIVERY_MIN = 5000;
 const DELIVERY_CHARGE   = 250;
 
@@ -77,6 +50,10 @@ const genOrderId = () =>
 export default function Checkout() {
   const navigate = useNavigate();
 
+  // ── Cart Context ──
+  const { cartItems, subtotal, delivery, total, clearCart } = useCart();
+  const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   // Form state
   const [form, setForm] = useState({
     fullName:    "",
@@ -95,12 +72,6 @@ export default function Checkout() {
   const [btnState,      setBtnState]      = useState("idle"); // idle | loading | success
   const [orderSuccess,  setOrderSuccess]  = useState(false);
   const [orderId,       setOrderId]       = useState("");
-
-  // Price calculations
-  const subtotal = ORDER_ITEMS.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const delivery = subtotal >= FREE_DELIVERY_MIN ? 0 : DELIVERY_CHARGE;
-  const total    = subtotal + delivery;
-  const totalQty = ORDER_ITEMS.reduce((sum, item) => sum + item.qty, 0);
 
   // ── Handle field change ──
   const handleChange = (e) => {
@@ -140,7 +111,8 @@ export default function Checkout() {
       setOrderId(id);
       setBtnState("success");
       setOrderSuccess(true);
-      console.log("Order placed:", { form, payment, items: ORDER_ITEMS, total, orderId: id });
+      clearCart(); // Clear cart after successful order
+      console.log("Order placed:", { form, payment, items: cartItems, total, orderId: id });
     }, 1800);
   };
 
@@ -169,6 +141,28 @@ export default function Checkout() {
       )}
     </div>
   );
+
+  // ── Empty cart guard ──
+  if (cartItems.length === 0 && !orderSuccess) {
+    return (
+      <>
+        <Navbar />
+        <div className="co-page" style={{ minHeight: "70vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1.2rem" }}>
+          <div style={{ fontSize: "4rem" }}>🛒</div>
+          <h2 style={{ color: "var(--text-primary, #fff)", margin: 0 }}>Your cart is empty</h2>
+          <p style={{ color: "var(--text-muted, #aaa)", margin: 0 }}>Add some items to your cart before checking out.</p>
+          <button
+            className="co-place-order-btn"
+            style={{ width: "auto", padding: "0.75rem 2rem" }}
+            onClick={() => navigate("/")}
+          >
+            Shop Now
+          </button>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -381,7 +375,7 @@ export default function Checkout() {
 
             {/* Items list */}
             <div className="co-summary-items">
-              {ORDER_ITEMS.map((item) => (
+              {cartItems.map((item) => (
                 <div className="co-summary-item" key={item.id}>
                   <img
                     className="co-summary-item-img"
@@ -391,10 +385,10 @@ export default function Checkout() {
                   />
                   <div className="co-summary-item-info">
                     <span className="co-summary-item-name">{item.name}</span>
-                    <span className="co-summary-item-qty">Qty: {item.qty}</span>
+                    <span className="co-summary-item-qty">Qty: {item.quantity}</span>
                   </div>
                   <span className="co-summary-item-price">
-                    {fmt(item.price * item.qty)}
+                    {fmt(item.price * item.quantity)}
                   </span>
                 </div>
               ))}

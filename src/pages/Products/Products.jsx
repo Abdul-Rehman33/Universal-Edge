@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import "./Products.css";
@@ -358,10 +358,18 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
 export default function Products() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  const [search, setSearch] = useState("");
+  const [search,   setSearch]   = useState(searchParams.get("search") || "");
   const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("default");
+  const [sort,     setSort]     = useState("default");
+
+  // Sync search state whenever URL ?search= param changes
+  // (e.g. user searches again from Navbar while already on Products page)
+  useEffect(() => {
+    const urlSearch = searchParams.get("search") || "";
+    setSearch(urlSearch);
+  }, [searchParams]);
 
   // Filter + sort products using useMemo for performance
   const filteredProducts = useMemo(() => {

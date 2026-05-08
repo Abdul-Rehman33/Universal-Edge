@@ -97,8 +97,8 @@ export default function FeaturedProducts() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
-  const [cartAdded,    setCartAdded]    = useState([]); // track added to cart
-  const [wishlist,     setWishlist]     = useState([]); // track wishlist
+  const [cartAdded, setCartAdded] = useState([]); // track added to cart
+  const [wishlist, setWishlist] = useState([]); // track wishlist
 
   // Filter products based on selected tab
   const filtered = activeFilter === "All"
@@ -108,7 +108,7 @@ export default function FeaturedProducts() {
   // Add to cart — show green "Added!" for 1.5s then reset
   const handleAddToCart = (e, Product) => {
     e.stopPropagation(); // prevent card click
-    addToCart(Product);   
+    addToCart(Product);
 
     setCartAdded((prev) => [...prev, Product.id]);
     setTimeout(() => {
