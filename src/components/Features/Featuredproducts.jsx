@@ -14,8 +14,8 @@ const PRODUCTS = [
     id: 1,
     name: "Nike Air Max 270",
     category: "Shoes",
-    price: "PKR 12,500",
-    oldPrice: "PKR 15,000",
+    price: 12500,
+    oldPrice: 15000,
     badge: "sale",
     image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",
   },
@@ -23,7 +23,7 @@ const PRODUCTS = [
     id: 2,
     name: "Dior Sauvage EDP",
     category: "Perfumes",
-    price: "PKR 8,900",
+    price: 8900,
     oldPrice: null,
     badge: "new",
     image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=600&q=80",
@@ -32,8 +32,8 @@ const PRODUCTS = [
     id: 3,
     name: "Classic White Tee",
     category: "Clothing",
-    price: "PKR 1,800",
-    oldPrice: "PKR 2,400",
+    price: 1800,
+    oldPrice: 2400,
     badge: "sale",
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
   },
@@ -41,7 +41,7 @@ const PRODUCTS = [
     id: 4,
     name: "Casio G-Shock Watch",
     category: "Accessories",
-    price: "PKR 6,200",
+    price: 6200,
     oldPrice: null,
     badge: "new",
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80",
@@ -50,8 +50,8 @@ const PRODUCTS = [
     id: 5,
     name: "Adidas Ultraboost",
     category: "Shoes",
-    price: "PKR 14,000",
-    oldPrice: "PKR 17,500",
+    price: 14000,
+    oldPrice: 17500,
     badge: "sale",
     image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80",
   },
@@ -59,7 +59,7 @@ const PRODUCTS = [
     id: 6,
     name: "Leather Crossbody Bag",
     category: "Accessories",
-    price: "PKR 3,500",
+    price: 3500,
     oldPrice: null,
     badge: null,
     image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80",
@@ -68,8 +68,8 @@ const PRODUCTS = [
     id: 7,
     name: "Slim Fit Chinos",
     category: "Clothing",
-    price: "PKR 2,900",
-    oldPrice: "PKR 3,800",
+    price: 2900,
+    oldPrice: 3800,
     badge: "sale",
     image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80",
   },
@@ -77,12 +77,15 @@ const PRODUCTS = [
     id: 8,
     name: "Versace Eros EDT",
     category: "Perfumes",
-    price: "PKR 11,200",
+    price: 11200,
     oldPrice: null,
     badge: "new",
     image: "https://images.unsplash.com/photo-1594938298603-c8148c4b4f2b?w=600&q=80",
   },
 ];
+
+// Format price as PKR string for display
+const fmt = (n) => `PKR ${Number(n).toLocaleString()}`;
 
 // Filter tab options
 const FILTERS = ["All", "Shoes", "Perfumes", "Clothing", "Accessories"];
@@ -187,16 +190,16 @@ export default function FeaturedProducts() {
 
               {/* Price */}
               <div className="card-price-row">
-                <span className="card-price">{product.price}</span>
+                <span className="card-price">{fmt(product.price)}</span>
                 {product.oldPrice && (
-                  <span className="card-old-price">{product.oldPrice}</span>
+                  <span className="card-old-price">{fmt(product.oldPrice)}</span>
                 )}
               </div>
 
               {/* Add to Cart button */}
               <button
                 className={`add-to-cart-btn ${cartAdded.includes(product.id) ? "added" : ""}`}
-                onClick={(e) => handleAddToCart(e, product.id)}
+                onClick={(e) => handleAddToCart(e, product)}
               >
                 {cartAdded.includes(product.id) ? (
                   <>

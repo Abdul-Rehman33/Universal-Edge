@@ -46,8 +46,8 @@ const NAV_LINKS = [
 /* ══════════════════════════════════════════════════════════
    Navbar Component
    ══════════════════════════════════════════════════════════ */
-export default function Navbar({ cartCount }) {
-  const { cart } = useCart(); 
+export default function Navbar() {
+  const { totalItems } = useCart();
   const [menuOpen, setMenuOpen]   = useState(false);
   const [scrolled, setScrolled]   = useState(false);
   const [searchVal, setSearchVal] = useState("");
@@ -103,10 +103,10 @@ export default function Navbar({ cartCount }) {
             />
           </div>
 
-          <button className="uem-icon-btn" aria-label={`Cart — ${cartCount} items`} onClick={() => navigate("/cart")}>
+          <button className="uem-icon-btn" aria-label={`Cart — ${totalItems} items`} onClick={() => navigate("/cart")}>
             <CartIcon />
-            {cartCount > 0 && (
-              <span className="uem-cart-badge" aria-hidden="true">{cartCount}</span>
+            {totalItems > 0 && (
+              <span className="uem-cart-badge" aria-hidden="true">{totalItems}</span>
             )}
           </button>
 
@@ -186,9 +186,9 @@ export default function Navbar({ cartCount }) {
           <Link to="/cart" className="uem-drawer-cart" onClick={closeMenu}>
             <CartIcon />
             My Cart
-            {cartCount > 0 && (
+            {totalItems > 0 && (
               <span className="uem-cart-badge" style={{ position: "static", marginLeft: "auto" }}>
-                {cartCount}
+                {totalItems}
               </span>
             )}
           </Link>
