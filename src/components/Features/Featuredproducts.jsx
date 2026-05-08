@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FeaturedProducts.css";
+import { useCart } from "../../Context/CartContext";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCT DATA  (replace images with your own assets)
@@ -90,6 +91,7 @@ const FILTERS = ["All", "Shoes", "Perfumes", "Clothing", "Accessories"];
 //  FEATURED PRODUCTS COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function FeaturedProducts() {
+  const { addToCart } = useCart();
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [cartAdded,    setCartAdded]    = useState([]); // track added to cart
@@ -101,15 +103,15 @@ export default function FeaturedProducts() {
     : PRODUCTS.filter((p) => p.category === activeFilter);
 
   // Add to cart — show green "Added!" for 1.5s then reset
-  const handleAddToCart = (e, id) => {
+  const handleAddToCart = (e, Product) => {
     e.stopPropagation(); // prevent card click
-    if (cartAdded.includes(id)) return;
+    addToCart(Product);   
 
-    setCartAdded((prev) => [...prev, id]);
+    setCartAdded((prev) => [...prev, Product.id]);
     setTimeout(() => {
-      setCartAdded((prev) => prev.filter((x) => x !== id));
+      setCartAdded((prev) => prev.filter((x) => x !== Product.id));
     }, 1500);
-    console.log(`Added product ${id} to cart`);
+    console.log(`Added product ${Product.id} to cart`);
   };
 
   // Toggle wishlist

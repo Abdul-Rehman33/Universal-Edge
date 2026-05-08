@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import "./Products.css";
+import { useCart } from "../../Context/CartContext";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATA
@@ -355,6 +356,7 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
 //  PRODUCTS PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function Products() {
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
@@ -394,8 +396,7 @@ export default function Products() {
 
   // Add to cart handler
   const handleAddToCart = (product) => {
-    console.log("Added to cart:", product.name);
-    // Later: dispatch to Cart Context
+    addToCart(product); // This updates the global cart
   };
 
   // Navigate to product detail

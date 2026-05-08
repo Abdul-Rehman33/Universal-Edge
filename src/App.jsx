@@ -13,11 +13,18 @@ import Checkout from "./pages/Checkout/Checkout.jsx";
 import Login from "./pages/LogIn/SignUp/Login.jsx";
 import Signup from "./pages/LogIn/SignUp/Signup.jsx";
 
+
+// ── Cart Context ───────────────────────────────────────────
+// CartProvider wraps the ENTIRE app so every page and
+// component can access cart state using useCart()
+import { CartProvider } from "./Context/CartContext.jsx";
+
 // ─────────────────────────────────────────────────────────────
 //  MAIN APP COMPONENT WITH ROUTES
 // ─────────────────────────────────────────────────────────────
 export default function App() {
   return (
+    <CartProvider>
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
@@ -37,5 +44,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </CartProvider >
   );
 }

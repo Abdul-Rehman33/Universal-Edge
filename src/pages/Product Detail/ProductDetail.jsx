@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import "./ProductDetail.css";
+import { useCart } from "../../Context/CartContext";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATABASE
@@ -153,6 +154,7 @@ const INFO_CARDS = [
 //  PRODUCT DETAIL PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function ProductDetail() {
+  const { addToCart } = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -207,10 +209,21 @@ export default function ProductDetail() {
 
   // Add to cart
   const handleAddToCart = () => {
-    setCartAdded(true);
-    console.log("Added to cart:", { ...product, quantity });
-    setTimeout(() => setCartAdded(false), 2000);
-  };
+  // Add the product with selected quantity
+  // This loops addToCart based on the quantity selected
+  for (let i = 0; i < quantity; i++) {
+    addToCart({
+      id:       product.id,
+      name:     product.name,
+      price:    product.price,
+      oldPrice: product.oldPrice,
+      image:    product.images[0],
+      category: product.category,
+    });
+  }
+  setCartAdded(true);
+  setTimeout(() => setCartAdded(false), 2000);
+};
 
   // Discount calculation
   const discount = product.oldPrice

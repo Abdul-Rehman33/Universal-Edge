@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../assets/Logo.png";
+import { useCart } from "../../Context/CartContext";
 
 /* ── SVG Icons (inline, no library needed) ────────────── */
 
@@ -45,7 +46,8 @@ const NAV_LINKS = [
 /* ══════════════════════════════════════════════════════════
    Navbar Component
    ══════════════════════════════════════════════════════════ */
-export default function Navbar({ cartCount = 1 }) {
+export default function Navbar({ cartCount }) {
+  const { cart } = useCart(); 
   const [menuOpen, setMenuOpen]   = useState(false);
   const [scrolled, setScrolled]   = useState(false);
   const [searchVal, setSearchVal] = useState("");
