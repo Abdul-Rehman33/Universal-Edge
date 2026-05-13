@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import "./Navbar.css";
-import logo from "../../assets/Logo.png";
 import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext.jsx";
+import logo from "../../assets/Logo.png";
+import "./Navbar.css";
 
 /* ── SVG Icons (inline, no library needed) ────────────── */
 
@@ -28,6 +29,14 @@ const CloseIcon = () => (
   </svg>
 );
 
+const HeartIcon = ({ filled }) => (
+  <svg viewBox="0 0 24 24" fill={filled ? "#e05555" : "none"}
+    stroke={filled ? "#e05555" : "currentColor"}
+    strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+  </svg>
+);
+
 const LockIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -48,6 +57,7 @@ const NAV_LINKS = [
    ══════════════════════════════════════════════════════════ */
 export default function Navbar() {
   const { totalItems } = useCart();
+  const { totalWishlist } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchVal, setSearchVal] = useState("");
@@ -117,6 +127,24 @@ export default function Navbar() {
               aria-label="Search products"
             />
           </div>
+              
+          {/* ❤️ Wishlist Icon — with live count */}
+          <Link
+            to="/wishlist"
+            className="uem-icon-btn"
+            aria-label="Wishlist"
+            title="My Wishlist"
+          >
+            <HeartIcon filled={totalWishlist > 0} />
+            {totalWishlist > 0 && (
+              <span
+                className="uem-cart-badge"
+                style={{ background: "#e05555" }}
+              >
+                {totalWishlist > 99 ? "99+" : totalWishlist}
+              </span>
+            )}
+          </Link>
 
           <button className="uem-icon-btn" aria-label={`Cart — ${totalItems} items`} onClick={() => navigate("/cart")}>
             <CartIcon />
@@ -202,6 +230,25 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
+          {/* Wishlist link */}
+          <Link
+            to="/wishlist"
+            className="uem-drawer-cart"
+            onClick={() => setMenuOpen(false)}
+            style={{ marginBottom: "8px" }}
+          >
+            <HeartIcon filled={totalWishlist > 0} />
+            My Wishlist
+            {totalWishlist > 0 && (
+              <span
+                className="uem-cart-badge"
+                style={{ position: "static", marginLeft: "auto", background: "#e05555" }}
+              >
+                {totalWishlist}
+              </span>
+            )}
+          </Link> 
 
         {/* Drawer bottom actions */}
         <div className="uem-drawer-actions">

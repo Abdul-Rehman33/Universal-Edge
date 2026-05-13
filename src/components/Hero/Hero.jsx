@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Hero.css";
+
 
 // ─────────────────────────────────────────────────────────────
 //  SLIDE DATA
@@ -40,6 +42,7 @@ const AUTO_SLIDE_INTERVAL = 4500;
 export default function Hero() {
   const [current, setCurrent] = useState(0);  // which slide is active
   const [paused,  setPaused]  = useState(false); // pause on hover
+  const navigate = useNavigate();
 
   // Go to next slide
   const nextSlide = useCallback(() => {
@@ -107,7 +110,7 @@ export default function Hero() {
 
         {/* Shop Now button */}
         <div className="hero-btn-wrap">
-          <button className="button-89" role="button">
+          <button className="button-89" role="button" onClick={() => navigate("/products")}>
             Shop Now
           </button>
         </div>

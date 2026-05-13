@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 // ─────────────────────────────────────────────────────────────
 //  1. CREATE CONTEXT
@@ -19,7 +19,14 @@ export function useCart() {
 export function CartProvider({ children }) {
 
   // Cart state — array of cart items
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState( () => {
+  const saved = localStorage.getItem("ue-cart");
+  return saved ? JSON.parse(saved) : [];
+});
+
+   useEffect(() => {
+    localStorage.setItem("ue-cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   // ── ADD TO CART ──────────────────────────────────────────
   // If product already exists → increase quantity

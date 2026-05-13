@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import "./Products.css";
 import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATA
@@ -240,7 +241,8 @@ function StarRating({ rating }) {
 //  PRODUCT CARD COMPONENT
 // ─────────────────────────────────────────────────────────────
 function ProductCard({ product, onAddToCart, onViewDetail }) {
-  const [wished, setWished] = useState(false);
+  const { toggleWishlist, isWishlisted } = useWishlist();
+  const wished = isWishlisted(product.id);
   const [cartAdded, setCartAdded] = useState(false);
 
   // Calculate discount percentage
@@ -280,7 +282,7 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
         {/* Wishlist */}
         <button
           className={`product-card-wish ${wished ? "wished" : ""}`}
-          onClick={(e) => { e.stopPropagation(); setWished((w) => !w); }}
+          onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
           aria-label="Wishlist"
         >
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
