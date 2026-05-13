@@ -161,7 +161,7 @@ export default function Navbar() {
         {/* Hamburger — mobile only */}
         <button
           className={`uem-hamburger${menuOpen ? " open" : ""}`}
-          onClick={openMenu}
+          onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Open menu"
           aria-expanded={menuOpen}
           aria-controls="uem-drawer"
