@@ -420,6 +420,43 @@
   color: var(--white);
 }
 
+.pd-btn-wishlist {
+  width: 52px; height: 52px;
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--speed), border-color var(--speed), background var(--speed);
+  flex-shrink: 0;
+}
+
+.pd-btn-wishlist svg {
+  width: 20px; height: 20px;
+  stroke: currentColor;
+  fill: none;
+  transition: fill var(--speed), stroke var(--speed);
+}
+
+.pd-btn-wishlist:hover {
+  border-color: var(--black);
+  color: var(--black);
+}
+
+.pd-btn-wishlist.wished {
+  border-color: #e05555;
+  background: rgba(224,85,85,0.05);
+  color: #e05555;
+}
+
+.pd-btn-wishlist.wished svg {
+  fill: #e05555;
+  stroke: #e05555;
+}
+
 /* Info cards */
 .pd-info-cards {
   display: grid;

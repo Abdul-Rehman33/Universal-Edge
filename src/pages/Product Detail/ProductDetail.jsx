@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import "./ProductDetail.css";
 import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATABASE
@@ -154,9 +155,11 @@ const INFO_CARDS = [
 //  PRODUCT DETAIL PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function ProductDetail() {
-  const { addToCart } = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const { toggleWishlist, isWishlisted } = useWishlist();
+  
 
   // Find product by id
   const product = ALL_PRODUCTS.find((p) => p.id === Number(id));
@@ -393,6 +396,16 @@ export default function ProductDetail() {
                 disabled={!product.inStock}
               >
                 Buy Now
+              </button>
+              <button
+                className={`pd-btn-wishlist ${isWishlisted(product.id) ? "wished" : ""}`}
+                onClick={() => toggleWishlist(product)}
+                aria-label="Wishlist"
+              >
+                <svg viewBox="0 0 24 24" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                </svg>
               </button>
             </div>
 
