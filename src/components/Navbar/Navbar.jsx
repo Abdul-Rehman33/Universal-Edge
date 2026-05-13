@@ -231,6 +231,8 @@ export default function Navbar() {
           ))}
         </ul>
 
+        {/* Drawer bottom actions */}
+        <div className="uem-drawer-actions">
           {/* Wishlist link */}
           <Link
             to="/wishlist"
@@ -249,9 +251,7 @@ export default function Navbar() {
               </span>
             )}
           </Link> 
-
-        {/* Drawer bottom actions */}
-        <div className="uem-drawer-actions">
+          
           <Link to="/cart" className="uem-drawer-cart" onClick={closeMenu}>
             <CartIcon />
             My Cart
