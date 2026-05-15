@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FeaturedProducts.css";
 import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCT DATA  (replace images with your own assets)
@@ -95,10 +96,10 @@ const FILTERS = ["All", "Shoes", "Perfumes", "Clothing", "Accessories"];
 // ─────────────────────────────────────────────────────────────
 export default function FeaturedProducts() {
   const { addToCart } = useCart();
+  const { toggleWishlist, isWishlisted } = useWishlist();
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [cartAdded, setCartAdded] = useState([]); // track added to cart
-  const [wishlist, setWishlist] = useState([]); // track wishlist
 
   // Filter products based on selected tab
   const filtered = activeFilter === "All"
@@ -118,11 +119,9 @@ export default function FeaturedProducts() {
   };
 
   // Toggle wishlist
-  const handleWishlist = (e, id) => {
+  const handleWishlist = (e, product) => {
     e.stopPropagation();
-    setWishlist((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+    toggleWishlist(product);
   };
 
   return (
@@ -172,8 +171,8 @@ export default function FeaturedProducts() {
 
               {/* Wishlist button */}
               <button
-                className={`card-wishlist ${wishlist.includes(product.id) ? "active" : ""}`}
-                onClick={(e) => handleWishlist(e, product.id)}
+                className={`card-wishlist ${isWishlisted(product.id) ? "active" : ""}`}
+                onClick={(e) => handleWishlist(e, product)}
                 aria-label="Add to wishlist"
               >
                 <svg viewBox="0 0 24 24" fill="none"

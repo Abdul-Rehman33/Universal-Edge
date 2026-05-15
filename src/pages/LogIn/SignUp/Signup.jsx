@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../../../Context/ToastContext.jsx";
 import "./Auth.css";
 import Logo from "../../../assets/Logo.png"
 
@@ -8,6 +9,7 @@ import Logo from "../../../assets/Logo.png"
 // ─────────────────────────────────────────────────────────────
 export default function Signup() {
   const navigate = useNavigate();
+  const { success, info, warning } = useToast();
 
   // Form state
   const [form, setForm] = useState({
@@ -59,8 +61,8 @@ export default function Signup() {
     }
     setLoading(true);
     setTimeout(() => {
-      console.log("Signup:", form);
       setLoading(false);
+      success("Account created! Please login 🎉");
       navigate("/login");
     }, 1500);
   };

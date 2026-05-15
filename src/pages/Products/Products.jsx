@@ -2,9 +2,10 @@ import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-import "./Products.css";
 import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext.jsx";
+import "./Products.css";
+import { useToast } from "../../Context/ToastContext.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATA
@@ -359,10 +360,11 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
 // ─────────────────────────────────────────────────────────────
 export default function Products() {
   const { addToCart } = useCart();
+  const { showSuccess } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const [search,   setSearch]   = useState(searchParams.get("search") || "");
+  const [search, setSearch] = useState(searchParams.get("search") || "");
   const [category, setCategory] = useState("All");
   const [sort,     setSort]     = useState("default");
 
@@ -406,7 +408,8 @@ export default function Products() {
 
   // Add to cart handler
   const handleAddToCart = (product) => {
-    addToCart(product); // This updates the global cart
+    addToCart(product);
+    showSuccess(`${product.name} added to cart!`);
   };
 
   // Navigate to product detail

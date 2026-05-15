@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../../../Context/ToastContext.jsx";
 import "./Auth.css";
 import Logo from "../../../assets/Logo.png";
 
@@ -8,6 +9,7 @@ import Logo from "../../../assets/Logo.png";
 // ─────────────────────────────────────────────────────────────
 export default function Login() {
   const navigate = useNavigate();
+  const { success, info, warning } = useToast();
 
   // Form state
   const [form, setForm] = useState({ email: "", password: "" });
@@ -48,8 +50,8 @@ export default function Login() {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
-      console.log("Login:", form, "Remember:", remember);
       setLoading(false);
+      success("Welcome back! 👋");
       navigate("/"); // redirect to home after login
     }, 1500);
   };

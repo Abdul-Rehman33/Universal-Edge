@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import { useWishlist } from "../../Context/WishlistContext.jsx";
 import { useCart } from "../../Context/CartContext.jsx";
+import { useToast } from "../../Context/ToastContext.jsx";
 import "./Wishlist.css";
 
 // Format price helper
@@ -30,7 +31,7 @@ function WishlistCard({ item }) {
     const navigate = useNavigate();
     const { removeFromWishlist } = useWishlist();
     const { addToCart } = useCart();
-
+    const { success } = useToast();
     const [cartAdded, setCartAdded] = useState(false);
     const [removing, setRemoving] = useState(false);
 
@@ -44,6 +45,7 @@ function WishlistCard({ item }) {
         e.stopPropagation();
         addToCart(item);
         setCartAdded(true);
+        success(`${item.name} added to cart!`);
         setTimeout(() => setCartAdded(false), 1800);
     };
 
@@ -51,7 +53,9 @@ function WishlistCard({ item }) {
     const handleRemove = (e) => {
         e.stopPropagation();
         setRemoving(true);
-        setTimeout(() => removeFromWishlist(item.id), 300);
+        setTimeout(() => {removeFromWishlist(item.id);
+        info("Removed from wishlist");
+        }, 300);
     };
 
     return (
@@ -172,10 +176,23 @@ function WishlistCard({ item }) {
 export default function Wishlist() {
     const { wishlistItems, clearWishlist, totalWishlist } = useWishlist();
     const { addToCart } = useCart();
+    const { success, info, warning } = useToast();
 
     // Move all wishlist items to cart
     const handleMoveAllToCart = () => {
+        if (totalWishlist === 0) {
+            warning("Your wishlist is empty!");
+            return;
+        }
+
         wishlistItems.forEach((item) => addToCart(item));
+        success(`${totalWishlist} items added to cart! 🛒`);
+    };
+
+    // Clear entire wishlist
+    const handleClearWishlist = () => {
+        clearWishlist();
+        warning("Wishlist cleared!");
     };
 
     return (

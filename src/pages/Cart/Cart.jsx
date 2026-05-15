@@ -4,7 +4,8 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 
 // ── Import useCart hook ────────────────────────────────────
-import { useCart } from "../../Context/CartContext";
+import { useCart } from "../../Context/CartContext.jsx";
+import { useToast } from "../../Context/ToastContext.jsx";
 
 import "./Cart.css";
 
@@ -23,6 +24,7 @@ const fmt = (n) => `PKR ${Math.round(n).toLocaleString()}`;
 // ─────────────────────────────────────────────────────────────
 export default function Cart() {
   const navigate = useNavigate();
+  const { success, info, warning } = useToast();
 
   // ── Get everything from CartContext ──
   const {
@@ -44,10 +46,11 @@ export default function Cart() {
   const [couponData,   setCouponData]   = useState(null);
 
   // Remove with animation
-  const handleRemove = (id) => {
+  const handleRemove = (id,name) => {
     setRemovingId(id);
     setTimeout(() => {
       removeFromCart(id);
+      success(`${name} removed from cart`);
       setRemovingId(null);
     }, 300);
   };
@@ -55,6 +58,7 @@ export default function Cart() {
   // Clear all
   const handleClearCart = () => {
     clearCart();
+    warning("Cart cleared!");
     setCouponData(null);
     setCouponStatus(null);
   };
@@ -65,6 +69,7 @@ export default function Cart() {
     if (VALID_COUPONS[code]) {
       setCouponData(VALID_COUPONS[code]);
       setCouponStatus("success");
+      success(`Coupon ${code} applied! 🏷️`);
     } else {
       setCouponData(null);
       setCouponStatus("error");
@@ -180,7 +185,7 @@ export default function Cart() {
                       </span>
                       <button
                         className="cart-remove-btn"
-                        onClick={() => handleRemove(item.id)}
+                        onClick={() => handleRemove(item.id, item.name)}
                         aria-label={`Remove ${item.name}`}
                       >
                         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"

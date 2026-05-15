@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import { useCart } from "../../Context/CartContext.jsx";
+import { useToast } from "../../Context/ToastContext.jsx";
 import "./Checkout.css";
 
 // Delivery settings (must match CartContext)
@@ -48,6 +49,7 @@ const genOrderId = () =>
 //  CHECKOUT PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function Checkout() {
+  const { success, info, warning } = useToast();
   const navigate = useNavigate();
 
   // ── Cart Context ──
@@ -112,7 +114,7 @@ export default function Checkout() {
       setBtnState("success");
       setOrderSuccess(true);
       clearCart(); // Clear cart after successful order
-      console.log("Order placed:", { form, payment, items: cartItems, total, orderId: id });
+      success("Order placed successfully! 🎉");
     }, 1800);
   };
 

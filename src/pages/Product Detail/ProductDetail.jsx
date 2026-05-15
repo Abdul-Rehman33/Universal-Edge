@@ -5,6 +5,7 @@ import Footer from "../../components/Footer/Footer.jsx";
 import "./ProductDetail.css";
 import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext.jsx";
+import { useToast } from "../../Context/ToastContext.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATABASE
@@ -158,6 +159,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { success, info } = useToast();
   const { toggleWishlist, isWishlisted } = useWishlist();
   
 
@@ -210,6 +212,23 @@ export default function ProductDetail() {
   const increaseQty = () => setQuantity((q) => Math.min(q + 1, 10));
   const decreaseQty = () => setQuantity((q) => Math.max(q - 1, 1));
 
+  const handleWishlist = () => {
+    const wasWishlisted = isWishlisted(product.id);
+    toggleWishlist({ 
+      id:       product.id,
+      name:     product.name,
+      price:    product.price,
+      oldPrice: product.oldPrice,
+      image:    product.images[0],
+      category: product.category,
+    });
+    if (wasWishlisted) {
+      info("Removed from wishlist");
+    } else {
+      success("Added to wishlist! ❤️");
+    }
+};
+
   // Add to cart
   const handleAddToCart = () => {
   // Add the product with selected quantity
@@ -223,10 +242,11 @@ export default function ProductDetail() {
       image:    product.images[0],
       category: product.category,
     });
-  }
-  setCartAdded(true);
-  setTimeout(() => setCartAdded(false), 2000);
-};
+    }
+    setCartAdded(true);
+    success(`${product.name} added to cart!`);
+    setTimeout(() => setCartAdded(false), 2000);
+  };
 
   // Discount calculation
   const discount = product.oldPrice
