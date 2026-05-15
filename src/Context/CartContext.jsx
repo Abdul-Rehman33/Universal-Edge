@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import Toast from "./../components/Toast/Toast.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  1. CREATE CONTEXT

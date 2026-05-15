@@ -419,7 +419,7 @@ export default function ProductDetail() {
               </button>
               <button
                 className={`pd-btn-wishlist ${isWishlisted(product.id) ? "wished" : ""}`}
-                onClick={() => toggleWishlist(product)}
+                onClick={handleWishlist}
                 aria-label="Wishlist"
               >
                 <svg viewBox="0 0 24 24" strokeWidth="2"

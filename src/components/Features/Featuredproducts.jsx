@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./FeaturedProducts.css";
 import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext";
+import { useToast } from "../../Context/ToastContext";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCT DATA  (replace images with your own assets)
@@ -97,6 +98,7 @@ const FILTERS = ["All", "Shoes", "Perfumes", "Clothing", "Accessories"];
 export default function FeaturedProducts() {
   const { addToCart } = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
+  const { success, info } = useToast();
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [cartAdded, setCartAdded] = useState([]); // track added to cart
@@ -110,18 +112,24 @@ export default function FeaturedProducts() {
   const handleAddToCart = (e, Product) => {
     e.stopPropagation(); // prevent card click
     addToCart(Product);
+    success(`${Product.name} added to cart!`);
 
     setCartAdded((prev) => [...prev, Product.id]);
     setTimeout(() => {
       setCartAdded((prev) => prev.filter((x) => x !== Product.id));
     }, 1500);
-    console.log(`Added product ${Product.id} to cart`);
   };
 
   // Toggle wishlist
   const handleWishlist = (e, product) => {
     e.stopPropagation();
+    const wasWishlisted = isWishlisted(product.id);
     toggleWishlist(product);
+    if (wasWishlisted) {
+      info("Removed from wishlist");
+    } else {
+      success("Added to wishlist! ❤️");
+    }
   };
 
   return (

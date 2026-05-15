@@ -24,7 +24,7 @@ const fmt = (n) => `PKR ${Math.round(n).toLocaleString()}`;
 // ─────────────────────────────────────────────────────────────
 export default function Cart() {
   const navigate = useNavigate();
-  const { success, info, warning } = useToast();
+  const { success, warning } = useToast();
 
   // ── Get everything from CartContext ──
   const {

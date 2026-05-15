@@ -9,7 +9,7 @@ import Logo from "../../../assets/Logo.png";
 // ─────────────────────────────────────────────────────────────
 export default function Login() {
   const navigate = useNavigate();
-  const { success, info, warning } = useToast();
+  const { success, warning } = useToast();
 
   // Form state
   const [form, setForm] = useState({ email: "", password: "" });
@@ -45,6 +45,7 @@ export default function Login() {
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      warning("Please fix the errors before continuing!");
       return;
     }
     setLoading(true);

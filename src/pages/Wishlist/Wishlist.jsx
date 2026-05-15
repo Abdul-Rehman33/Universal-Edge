@@ -31,7 +31,7 @@ function WishlistCard({ item }) {
     const navigate = useNavigate();
     const { removeFromWishlist } = useWishlist();
     const { addToCart } = useCart();
-    const { success } = useToast();
+    const { success, info } = useToast();
     const [cartAdded, setCartAdded] = useState(false);
     const [removing, setRemoving] = useState(false);
 
@@ -255,7 +255,7 @@ export default function Wishlist() {
                                     {/* Clear all */}
                                     <button
                                         className="wishlist-clear-btn"
-                                        onClick={clearWishlist}
+                                        onClick={handleClearWishlist}
                                     >
                                         Clear All
                                     </button>

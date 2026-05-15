@@ -100,6 +100,7 @@ export default function Checkout() {
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      warning("Please fill in all required fields!");
       // Scroll to top of form
       window.scrollTo({ top: 300, behavior: "smooth" });
       return;

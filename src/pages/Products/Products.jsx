@@ -243,6 +243,7 @@ function StarRating({ rating }) {
 // ─────────────────────────────────────────────────────────────
 function ProductCard({ product, onAddToCart, onViewDetail }) {
   const { toggleWishlist, isWishlisted } = useWishlist();
+  const { success, info } = useToast();
   const wished = isWishlisted(product.id);
   const [cartAdded, setCartAdded] = useState(false);
 
@@ -261,6 +262,18 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
     setCartAdded(true);
     onAddToCart(product);
     setTimeout(() => setCartAdded(false), 1800);
+  };
+
+  // Wishlist toggle handler with toast
+  const handleWishlist = (e) => {
+    e.stopPropagation();
+    const wasWishlisted = isWishlisted(product.id);
+    toggleWishlist(product);
+    if (wasWishlisted) {
+      info("Removed from wishlist");
+    } else {
+      success("Added to wishlist! ❤️");
+    }
   };
 
   return (
@@ -283,7 +296,7 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
         {/* Wishlist */}
         <button
           className={`product-card-wish ${wished ? "wished" : ""}`}
-          onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
+          onClick={handleWishlist}
           aria-label="Wishlist"
         >
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
@@ -360,7 +373,7 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
 // ─────────────────────────────────────────────────────────────
 export default function Products() {
   const { addToCart } = useCart();
-  const { showSuccess } = useToast();
+  const { success } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -409,7 +422,7 @@ export default function Products() {
   // Add to cart handler
   const handleAddToCart = (product) => {
     addToCart(product);
-    showSuccess(`${product.name} added to cart!`);
+    success(`${product.name} added to cart!`);
   };
 
   // Navigate to product detail
