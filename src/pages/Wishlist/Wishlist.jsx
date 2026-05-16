@@ -53,8 +53,9 @@ function WishlistCard({ item }) {
     const handleRemove = (e) => {
         e.stopPropagation();
         setRemoving(true);
-        setTimeout(() => {removeFromWishlist(item.id);
-        info("Removed from wishlist");
+        setTimeout(() => {
+            removeFromWishlist(item.id);
+            info("Removed from wishlist");
         }, 300);
     };
 
@@ -299,6 +300,7 @@ export default function Wishlist() {
             </div>
 
             <Footer />
+
         </>
     );
 }

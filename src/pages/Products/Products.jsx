@@ -6,6 +6,7 @@ import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext.jsx";
 import "./Products.css";
 import { useToast } from "../../Context/ToastContext.jsx";
+import { ProductsGridSkeleton, SectionHeaderSkeleton } from "../../components/Skeleton/Skeleton.jsx";
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATA
@@ -376,6 +377,7 @@ export default function Products() {
   const { success } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [category, setCategory] = useState("All");
@@ -387,6 +389,12 @@ export default function Products() {
     const urlSearch = searchParams.get("search") || "";
     setSearch(urlSearch);
   }, [searchParams]);
+
+  // Loading state
+  useEffect(() => {
+  const timer = setTimeout(() => setLoading(false), 1200); // 1.2 seconds loading
+  return () => clearTimeout(timer);
+}, []);
 
   // Filter + sort products using useMemo for performance
   const filteredProducts = useMemo(() => {
@@ -504,29 +512,33 @@ export default function Products() {
           </div>
 
           {/* ── Products Grid ── */}
-          <div className="products-grid">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product, index) => (
-                <div
-                  key={product.id}
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <ProductCard
-                    product={product}
-                    onAddToCart={handleAddToCart}
-                    onViewDetail={handleViewDetail}
-                  />
+          {loading ? (
+            <ProductsGridSkeleton count={8} />
+          ) : (
+            <div className="products-grid">
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product, index) => (
+                  <div
+                    key={product.id}
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    <ProductCard
+                      product={product}
+                      onAddToCart={handleAddToCart}
+                      onViewDetail={handleViewDetail}
+                    />
+                  </div>
+                ))
+              ) : (
+                // No results
+                <div className="products-empty">
+                  <span className="products-empty-icon">🔍</span>
+                  <h3>No products found</h3>
+                  <p>Try a different search term or category</p>
                 </div>
-              ))
-            ) : (
-              // No results
-              <div className="products-empty">
-                <span className="products-empty-icon">🔍</span>
-                <h3>No products found</h3>
-                <p>Try a different search term or category</p>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
 
         </div>
       </div>

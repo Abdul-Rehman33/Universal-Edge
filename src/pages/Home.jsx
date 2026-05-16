@@ -29,12 +29,13 @@ export default function Home() {
 
     return (
         <>
-            <Navbar />
-            <Hero />
-            <Categories />
-            <FeaturedProducts />
-            <Contact />
-            <Footer />
+
+                <Navbar />
+                <Hero />
+                <Categories />
+                <FeaturedProducts />
+                <Contact />
+                <Footer />
         </>
     );
 }

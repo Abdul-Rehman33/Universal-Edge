@@ -6,6 +6,8 @@ import "./ProductDetail.css";
 import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext.jsx";
 import { useToast } from "../../Context/ToastContext.jsx";
+import { ProductDetailSkeleton } from "../../components/Skeleton/Skeleton.jsx";
+
 
 // ─────────────────────────────────────────────────────────────
 //  DUMMY PRODUCTS DATABASE
@@ -160,8 +162,9 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { success, info } = useToast();
+  const [loading, setLoading] = useState(true);
   const { toggleWishlist, isWishlisted } = useWishlist();
-  
+
 
   // Find product by id
   const product = ALL_PRODUCTS.find((p) => p.id === Number(id));
@@ -180,6 +183,13 @@ export default function ProductDetail() {
     setCartAdded(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
+
+  // Loading state for product
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, [id]); // id change hone pe bhi loading dikhao
 
   // Product not found
   if (!product) {
@@ -214,12 +224,12 @@ export default function ProductDetail() {
 
   const handleWishlist = () => {
     const wasWishlisted = isWishlisted(product.id);
-    toggleWishlist({ 
-      id:       product.id,
-      name:     product.name,
-      price:    product.price,
+    toggleWishlist({
+      id: product.id,
+      name: product.name,
+      price: product.price,
       oldPrice: product.oldPrice,
-      image:    product.images[0],
+      image: product.images[0],
       category: product.category,
     });
     if (wasWishlisted) {
@@ -227,21 +237,21 @@ export default function ProductDetail() {
     } else {
       success("Added to wishlist! ❤️");
     }
-};
+  };
 
   // Add to cart
   const handleAddToCart = () => {
-  // Add the product with selected quantity
-  // This loops addToCart based on the quantity selected
-  for (let i = 0; i < quantity; i++) {
-    addToCart({
-      id:       product.id,
-      name:     product.name,
-      price:    product.price,
-      oldPrice: product.oldPrice,
-      image:    product.images[0],
-      category: product.category,
-    });
+    // Add the product with selected quantity
+    // This loops addToCart based on the quantity selected
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        oldPrice: product.oldPrice,
+        image: product.images[0],
+        category: product.category,
+      });
     }
     setCartAdded(true);
     success(`${product.name} added to cart!`);
@@ -281,169 +291,173 @@ export default function ProductDetail() {
         </div>
 
         {/* ── Two Column Main ── */}
-        <div className="pd-main">
+        {loading ? (
+          <ProductDetailSkeleton />
+        ) : (
+          <div className="pd-main">
 
-          {/* ════ LEFT — IMAGES ════ */}
-          <div className="pd-images">
+            {/* ════ LEFT — IMAGES ════ */}
+            <div className="pd-images">
 
-            {/* Main image */}
-            <div className="pd-main-img-wrap">
-              <img
-                className={`pd-main-img ${switching ? "switching" : ""}`}
-                src={product.images[activeImg]}
-                alt={product.name}
-              />
-              {product.badge && (
-                <span className={`pd-img-badge ${product.badge}`}>
-                  {product.badge === "new" ? "New" : product.badge === "sale" ? "Sale" : "Hot 🔥"}
-                </span>
-              )}
-            </div>
-
-            {/* Thumbnails */}
-            <div className="pd-thumbs">
-              {product.images.map((img, i) => (
-                <div
-                  key={i}
-                  className={`pd-thumb ${i === activeImg ? "active" : ""}`}
-                  onClick={() => switchImage(i)}
-                >
-                  <img src={img} alt={`View ${i + 1}`} loading="lazy" />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ════ RIGHT — INFO ════ */}
-          <div className="pd-info">
-
-            {/* Meta */}
-            <div className="pd-info-meta">
-              <span className="pd-info-cat">{product.category}</span>
-              <span className="pd-info-sold">{product.sold} Sold</span>
-            </div>
-
-            {/* Title */}
-            <h1 className="pd-info-title">{product.name}</h1>
-
-            {/* Rating */}
-            <div className="pd-info-rating">
-              <div className="pd-rating-score">
-                <span className="star-icon">⭐</span>
-                <span className="score-num">{product.rating}</span>
-                <span className="score-denom">/ 5</span>
-              </div>
-              <a href="#reviews" className="pd-rating-reviews"
-                onClick={() => setActiveTab("reviews")}>
-                {product.reviews} Reviews
-              </a>
-            </div>
-
-            {/* Price */}
-            <div className="pd-info-price-row">
-              <span className="pd-info-price">{fmt(product.price)}</span>
-              {product.oldPrice && (
-                <span className="pd-info-old-price">{fmt(product.oldPrice)}</span>
-              )}
-              {discount && (
-                <span className="pd-info-discount">-{discount}% OFF</span>
-              )}
-            </div>
-
-            {/* Stock */}
-            <div className={`pd-info-stock ${product.inStock ? "in" : "out"}`}>
-              <span className="stock-dot" />
-              {product.inStock ? "In Stock — Ready to Ship" : "Out of Stock"}
-            </div>
-
-            {/* Description */}
-            <p className="pd-info-desc">{product.description}</p>
-
-            {/* Quantity */}
-            <div className="pd-qty-row">
-              <span className="pd-qty-label">Qty:</span>
-              <div className="pd-qty-control">
-                <button
-                  className="pd-qty-btn"
-                  onClick={decreaseQty}
-                  disabled={quantity <= 1}
-                  aria-label="Decrease"
-                >
-                  −
-                </button>
-                <span className="pd-qty-num">{quantity}</span>
-                <button
-                  className="pd-qty-btn"
-                  onClick={increaseQty}
-                  disabled={quantity >= 10}
-                  aria-label="Increase"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            {/* Action buttons */}
-            <div className="pd-action-btns">
-              <button
-                className={`pd-btn-cart ${cartAdded ? "added" : ""}`}
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
-              >
-                {cartAdded ? (
-                  <>
-                    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5"
-                      strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    Added to Cart!
-                  </>
-                ) : (
-                  <>
-                    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
-                      strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                      <line x1="3" y1="6" x2="21" y2="6" />
-                      <path d="M16 10a4 4 0 01-8 0" />
-                    </svg>
-                    Add to Cart
-                  </>
+              {/* Main image */}
+              <div className="pd-main-img-wrap">
+                <img
+                  className={`pd-main-img ${switching ? "switching" : ""}`}
+                  src={product.images[activeImg]}
+                  alt={product.name}
+                />
+                {product.badge && (
+                  <span className={`pd-img-badge ${product.badge}`}>
+                    {product.badge === "new" ? "New" : product.badge === "sale" ? "Sale" : "Hot 🔥"}
+                  </span>
                 )}
-              </button>
-              <button
-                className="pd-btn-buy"
-                onClick={() => navigate("/checkout")}
-                disabled={!product.inStock}
-              >
-                Buy Now
-              </button>
-              <button
-                className={`pd-btn-wishlist ${isWishlisted(product.id) ? "wished" : ""}`}
-                onClick={handleWishlist}
-                aria-label="Wishlist"
-              >
-                <svg viewBox="0 0 24 24" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-              </button>
-            </div>
+              </div>
 
-            {/* Info cards */}
-            <div className="pd-info-cards">
-              {INFO_CARDS.map((card) => (
-                <div className="pd-info-card" key={card.title}>
-                  <span className="pd-info-card-icon">{card.icon}</span>
-                  <div className="pd-info-card-text">
-                    <span className="pd-info-card-title">{card.title}</span>
-                    <span className="pd-info-card-sub">{card.sub}</span>
+              {/* Thumbnails */}
+              <div className="pd-thumbs">
+                {product.images.map((img, i) => (
+                  <div
+                    key={i}
+                    className={`pd-thumb ${i === activeImg ? "active" : ""}`}
+                    onClick={() => switchImage(i)}
+                  >
+                    <img src={img} alt={`View ${i + 1}`} loading="lazy" />
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
+            {/* ════ RIGHT — INFO ════ */}
+            <div className="pd-info">
+
+              {/* Meta */}
+              <div className="pd-info-meta">
+                <span className="pd-info-cat">{product.category}</span>
+                <span className="pd-info-sold">{product.sold} Sold</span>
+              </div>
+
+              {/* Title */}
+              <h1 className="pd-info-title">{product.name}</h1>
+
+              {/* Rating */}
+              <div className="pd-info-rating">
+                <div className="pd-rating-score">
+                  <span className="star-icon">⭐</span>
+                  <span className="score-num">{product.rating}</span>
+                  <span className="score-denom">/ 5</span>
+                </div>
+                <a href="#reviews" className="pd-rating-reviews"
+                  onClick={() => setActiveTab("reviews")}>
+                  {product.reviews} Reviews
+                </a>
+              </div>
+
+              {/* Price */}
+              <div className="pd-info-price-row">
+                <span className="pd-info-price">{fmt(product.price)}</span>
+                {product.oldPrice && (
+                  <span className="pd-info-old-price">{fmt(product.oldPrice)}</span>
+                )}
+                {discount && (
+                  <span className="pd-info-discount">-{discount}% OFF</span>
+                )}
+              </div>
+
+              {/* Stock */}
+              <div className={`pd-info-stock ${product.inStock ? "in" : "out"}`}>
+                <span className="stock-dot" />
+                {product.inStock ? "In Stock — Ready to Ship" : "Out of Stock"}
+              </div>
+
+              {/* Description */}
+              <p className="pd-info-desc">{product.description}</p>
+
+              {/* Quantity */}
+              <div className="pd-qty-row">
+                <span className="pd-qty-label">Qty:</span>
+                <div className="pd-qty-control">
+                  <button
+                    className="pd-qty-btn"
+                    onClick={decreaseQty}
+                    disabled={quantity <= 1}
+                    aria-label="Decrease"
+                  >
+                    −
+                  </button>
+                  <span className="pd-qty-num">{quantity}</span>
+                  <button
+                    className="pd-qty-btn"
+                    onClick={increaseQty}
+                    disabled={quantity >= 10}
+                    aria-label="Increase"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="pd-action-btns">
+                <button
+                  className={`pd-btn-cart ${cartAdded ? "added" : ""}`}
+                  onClick={handleAddToCart}
+                  disabled={!product.inStock}
+                >
+                  {cartAdded ? (
+                    <>
+                      <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5"
+                        strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      Added to Cart!
+                    </>
+                  ) : (
+                    <>
+                      <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 01-8 0" />
+                      </svg>
+                      Add to Cart
+                    </>
+                  )}
+                </button>
+                <button
+                  className="pd-btn-buy"
+                  onClick={() => navigate("/checkout")}
+                  disabled={!product.inStock}
+                >
+                  Buy Now
+                </button>
+                <button
+                  className={`pd-btn-wishlist ${isWishlisted(product.id) ? "wished" : ""}`}
+                  onClick={handleWishlist}
+                  aria-label="Wishlist"
+                >
+                  <svg viewBox="0 0 24 24" strokeWidth="2"
+                    strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Info cards */}
+              <div className="pd-info-cards">
+                {INFO_CARDS.map((card) => (
+                  <div className="pd-info-card" key={card.title}>
+                    <span className="pd-info-card-icon">{card.icon}</span>
+                    <div className="pd-info-card-text">
+                      <span className="pd-info-card-title">{card.title}</span>
+                      <span className="pd-info-card-sub">{card.sub}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
           </div>
-        </div>
+        )}
 
         {/* ── TABS SECTION ── */}
         <div className="pd-tabs-section" id="reviews">

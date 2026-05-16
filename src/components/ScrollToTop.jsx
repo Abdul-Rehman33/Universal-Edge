@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+// ─────────────────────────────────────────────────────────────
+//  SCROLL TO TOP ON ROUTE CHANGE 
+//  Jab bhi route change hoga — page top pe chala jayega
+// ─────────────────────────────────────────────────────────────
 export default function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    if (!hash) {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    }
-  }, [pathname, hash]);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
 
   return null;
 }

@@ -5,7 +5,7 @@
 /* ── Toast Container — fixed bottom right ───────────────── */
 .toast-container {
   position: fixed;
-  bottom: 28px;
+  bottom: 84px;
   right: 28px;
   z-index: 9999;
   display: flex;
@@ -196,7 +196,7 @@
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 520px) {
   .toast-container {
-    bottom: 16px;
+    bottom: 74px;
     right: 12px;
     left: 12px;
   }

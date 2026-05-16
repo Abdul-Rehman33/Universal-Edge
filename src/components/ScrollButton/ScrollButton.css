@@ -1,0 +1,75 @@
+/* ============================================================
+   Universal Edge — Scroll To Top Button
+   ============================================================ */
+
+.scroll-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e8c87a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+
+  /* Hidden by default */
+  opacity: 0;
+  transform: translateY(16px) scale(0.9);
+  pointer-events: none;
+
+  transition: opacity 0.3s ease,
+              transform 0.3s ease,
+              background 0.24s ease,
+              border-color 0.24s ease;
+}
+
+/* Show when visible class is added */
+.scroll-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Hover effect */
+.scroll-btn:hover {
+  background: #e8c87a;
+  border-color: #e8c87a;
+  color: #000;
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 28px rgba(232, 200, 122, 0.35);
+}
+
+.scroll-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.scroll-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  transition: stroke 0.24s ease;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .scroll-btn {
+    bottom: 20px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .scroll-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}

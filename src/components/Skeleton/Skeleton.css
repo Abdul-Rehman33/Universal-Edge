@@ -1,0 +1,239 @@
+/* ============================================================
+   Universal Edge — Skeleton Loading Styles
+   ============================================================ */
+
+/* ── Base Skeleton Block ─────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #e8e5e0 25%,
+    #f0ede8 50%,
+    #e8e5e0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite ease-in-out;
+  border-radius: 6px;
+  display: block;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Product Card Skeleton ───────────────────────────────── */
+.skeleton-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #f0ede8;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.skeleton-card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 0;
+}
+
+.skeleton-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-card-cat {
+  height: 10px;
+  width: 40%;
+  border-radius: 4px;
+}
+
+.skeleton-card-name {
+  height: 14px;
+  width: 85%;
+  border-radius: 4px;
+}
+
+.skeleton-card-rating {
+  height: 10px;
+  width: 55%;
+  border-radius: 4px;
+}
+
+.skeleton-card-price {
+  height: 18px;
+  width: 45%;
+  border-radius: 4px;
+}
+
+.skeleton-card-btn {
+  height: 40px;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 2px;
+}
+
+/* ── Hero Skeleton ───────────────────────────────────────── */
+.skeleton-hero {
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+  background: linear-gradient(
+    90deg,
+    #0f0f0f 25%,
+    #1a1a1a 50%,
+    #0f0f0f 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite ease-in-out;
+}
+
+/* ── Section Header Skeleton ─────────────────────────────── */
+.skeleton-section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.skeleton-tag {
+  height: 11px;
+  width: 100px;
+  border-radius: 20px;
+}
+
+.skeleton-title {
+  height: 36px;
+  width: 260px;
+  border-radius: 6px;
+}
+
+.skeleton-divider {
+  height: 3px;
+  width: 48px;
+  border-radius: 2px;
+}
+
+/* ── Product Detail Skeleton ─────────────────────────────── */
+.skeleton-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 32px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+}
+
+.skeleton-detail-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skeleton-detail-main-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+}
+
+.skeleton-detail-thumbs {
+  display: flex;
+  gap: 10px;
+}
+
+.skeleton-detail-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.skeleton-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.skeleton-detail-badge {
+  height: 26px;
+  width: 90px;
+  border-radius: 20px;
+}
+
+.skeleton-detail-title {
+  height: 38px;
+  width: 80%;
+  border-radius: 6px;
+}
+
+.skeleton-detail-title-2 {
+  height: 38px;
+  width: 55%;
+  border-radius: 6px;
+}
+
+.skeleton-detail-rating {
+  height: 32px;
+  width: 160px;
+  border-radius: 20px;
+}
+
+.skeleton-detail-price {
+  height: 36px;
+  width: 140px;
+  border-radius: 6px;
+}
+
+.skeleton-detail-desc-1 {
+  height: 13px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.skeleton-detail-desc-2 {
+  height: 13px;
+  width: 88%;
+  border-radius: 4px;
+}
+
+.skeleton-detail-desc-3 {
+  height: 13px;
+  width: 74%;
+  border-radius: 4px;
+}
+
+.skeleton-detail-qty {
+  height: 40px;
+  width: 130px;
+  border-radius: 10px;
+}
+
+.skeleton-detail-btn-1 {
+  height: 52px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.skeleton-detail-btn-2 {
+  height: 52px;
+  width: 100%;
+  border-radius: 12px;
+  opacity: 0.6;
+}
+
+.skeleton-detail-btns {
+  display: flex;
+  gap: 12px;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .skeleton-detail {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 48px;
+    gap: 28px;
+  }
+}

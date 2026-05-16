@@ -11,8 +11,8 @@ import "./Cart.css";
 
 // Valid coupon codes
 const VALID_COUPONS = {
-  EDGE10:  { discount: 10, label: "10% off applied!" },
-  SAVE20:  { discount: 20, label: "20% off applied!" },
+  EDGE10: { discount: 10, label: "10% off applied!" },
+  SAVE20: { discount: 20, label: "20% off applied!" },
   WELCOME: { discount: 15, label: "15% welcome discount!" },
 };
 
@@ -40,13 +40,13 @@ export default function Cart() {
   } = useCart();
 
   // Local UI state
-  const [removingId,   setRemovingId]   = useState(null);
-  const [couponInput,  setCouponInput]  = useState("");
+  const [removingId, setRemovingId] = useState(null);
+  const [couponInput, setCouponInput] = useState("");
   const [couponStatus, setCouponStatus] = useState(null);
-  const [couponData,   setCouponData]   = useState(null);
+  const [couponData, setCouponData] = useState(null);
 
   // Remove with animation
-  const handleRemove = (id,name) => {
+  const handleRemove = (id, name) => {
     setRemovingId(id);
     setTimeout(() => {
       removeFromCart(id);
@@ -190,10 +190,10 @@ export default function Cart() {
                       >
                         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                           strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="3 6 5 6 21 6"/>
-                          <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
-                          <path d="M10 11v6M14 11v6"/>
-                          <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                          <path d="M10 11v6M14 11v6" />
+                          <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
                         </svg>
                       </button>
                     </div>
@@ -204,8 +204,8 @@ export default function Cart() {
                 <Link to="/products" className="cart-continue">
                   <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                     strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"/>
-                    <polyline points="12 19 5 12 12 5"/>
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
                   </svg>
                   Continue Shopping
                 </Link>
@@ -223,8 +223,8 @@ export default function Cart() {
                   <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                     strokeLinecap="round" strokeLinejoin="round"
                     width="16" height="16" stroke="currentColor">
-                    <line x1="19" y1="12" x2="5" y2="12"/>
-                    <polyline points="12 19 5 12 12 5"/>
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
                   </svg>
                   Start Shopping
                 </Link>
@@ -302,8 +302,8 @@ export default function Cart() {
                 Proceed to Checkout
                 <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                   strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                  <polyline points="12 5 19 12 12 19"/>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
                 </svg>
               </button>
 
@@ -311,7 +311,7 @@ export default function Cart() {
               <p className="cart-safe-note">
                 <svg viewBox="0 0 24 24" fill="none" strokeWidth="2"
                   strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
                 Secure & safe checkout
               </p>
