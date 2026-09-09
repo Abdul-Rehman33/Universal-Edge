@@ -5,7 +5,9 @@
   "description": "Universal Edge",
   "scripts": {
     "dev": "npm --prefix Frontend run dev",
+    "dev:backend": "npm --prefix Backend run dev",
     "start": "npm --prefix Frontend run dev",
+    "start:backend": "npm --prefix Backend start",
     "build": "npm --prefix Frontend run build",
     "preview": "npm --prefix Frontend run preview",
     "lint": "npm --prefix Frontend run lint"
