@@ -83,18 +83,16 @@ const userSchema = new mongoose.Schema(
 //  Yeh middleware save() se PEHLE chalta hai
 //  Sirf tab hash karo jab password change hua ho
 // ─────────────────────────────────────────────────────────────
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   // Agar password modify nahi hua toh skip karo
   // (jaise sirf email update ho raha ho)
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password")) return;
 
   // Salt generate karo — 12 rounds = secure + fast balance
   const salt = await bcrypt.genSalt(12);
 
   // Password hash karo aur replace karo
   this.password = await bcrypt.hash(this.password, salt);
-
-  next(); // agla middleware chalao
 });
 
 // ─────────────────────────────────────────────────────────────

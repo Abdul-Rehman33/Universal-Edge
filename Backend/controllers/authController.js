@@ -74,6 +74,7 @@ const register = async (req, res) => {
     });
 
   } catch (error) {
+    console.error("❌ Register Error:", error);
     // Mongoose validation error
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map((e) => e.message);
@@ -83,9 +84,17 @@ const register = async (req, res) => {
       });
     }
 
+    // Duplicate key error (e.g. unique email)
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already registered. Please login.",
+      });
+    }
+
     res.status(500).json({
       success: false,
-      message: "Server error. Please try again.",
+      message: error.message || "Server error. Please try again.",
     });
   }
 };
@@ -147,9 +156,10 @@ const login = async (req, res) => {
     });
 
   } catch (error) {
+    console.error("❌ Login Error:", error);
     res.status(500).json({
       success: false,
-      message: "Server error. Please try again.",
+      message: error.message || "Server error. Please try again.",
     });
   }
 };
@@ -178,9 +188,10 @@ const getMe = async (req, res) => {
     });
 
   } catch (error) {
+    console.error("❌ GetMe Error:", error);
     res.status(500).json({
       success: false,
-      message: "Server error. Please try again.",
+      message: error.message || "Server error. Please try again.",
     });
   }
 };
