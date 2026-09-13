@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "../../../Context/ToastContext.jsx";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider }  from "../../../firebase/firebase";
 import "./Auth.css";
 import Logo from "../../../assets/Logo.png";
 
@@ -9,7 +11,7 @@ import Logo from "../../../assets/Logo.png";
 // ─────────────────────────────────────────────────────────────
 export default function Login() {
   const navigate = useNavigate();
-  const { success, warning } = useToast();
+  const { success, warning, error } = useToast();
 
   // Form state
   const [form, setForm] = useState({ email: "", password: "" });
@@ -38,6 +40,21 @@ export default function Login() {
     else if (form.password.length < 6) newErrors.password = "Min 6 characters";
     return newErrors;
   };
+// handle google login
+  const handleGoogleLogin = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user   = result.user;
+
+    console.log("Google User:", user);
+    success(`Welcome ${user.displayName}! 👋`);
+    navigate("/");
+
+  } catch (err) {
+    error("Google login failed. Please try again.");
+    console.error(err);
+  }
+};
 
   // Handle submit
   const handleSubmit = (e) => {
@@ -86,7 +103,7 @@ export default function Login() {
           </h2>
           <p className="auth-panel-desc">
             Login to access your orders, wishlist, and exclusive deals
-            from Universal Edge Mart.
+            from Universal Edge.
           </p>
 
           {/* Dots */}
@@ -112,9 +129,13 @@ export default function Login() {
 
         {/* Social login buttons */}
         <div className="auth-social-btns" style={{ width: "100%", marginBottom: "20px" }}>
-          <button className="auth-social-btn">
+          <button
+            type="button"
+            className="auth-social-btn"
+            onClick={handleGoogleLogin}
+          >
             {/* Google icon */}
-            <svg viewBox="0 0 24 24" fill="none">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />

@@ -184,8 +184,11 @@ const orderSchema = new mongoose.Schema(
     // ── Order ID ───────────────────────────────────────────
     // Human readable order ID — site pe "UE-XXXXXX" format
     orderId: {
-      type:   String,
-      unique: true,
+      type:    String,
+      unique:  true,
+      default: () =>
+        "UE-" +
+        Math.random().toString(36).substring(2, 8).toUpperCase(),
     },
 
     // ── Payment Status ─────────────────────────────────────
@@ -216,7 +219,7 @@ const orderSchema = new mongoose.Schema(
 );
 
 // ─────────────────────────────────────────────────────────────
-//  PRE-SAVE — Auto generate orderId
+//  PRE-SAVE — Auto generate orderId if not already present
 //  "UE-" + random 6 characters
 //  Example: "UE-A3F8K2"
 // ─────────────────────────────────────────────────────────────
@@ -226,7 +229,9 @@ orderSchema.pre("save", function (next) {
       "UE-" +
       Math.random().toString(36).substring(2, 8).toUpperCase();
   }
-  next();
+  if (typeof next === "function") {
+    next();
+  }
 });
 
 // ─────────────────────────────────────────────────────────────
