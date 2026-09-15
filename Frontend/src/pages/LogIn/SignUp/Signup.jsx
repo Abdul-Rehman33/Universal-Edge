@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "../../../Context/ToastContext.jsx";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider }  from "../../../firebase/firebase";
+import axios from "axios";
 import "./Auth.css";
 import Logo from "../../../assets/Logo.png"
 
@@ -54,7 +55,7 @@ export default function Signup() {
   };
 
   // Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
@@ -63,20 +64,51 @@ export default function Signup() {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      success("Account created! Please login 🎉");
-      navigate("/login");
-    }, 1500);
+    try {
+    const response = await axios.post("http://localhost:5000/api/auth/register", {
+      firstName: form.firstName,
+      lastName:  form.lastName,
+      email:     form.email,
+      phone:     form.phone,
+      password:  form.password,
+    });
+
+    // Token save karo
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("user",  JSON.stringify(response.data.user));
+
+    setLoading(false);
+    success("Account created! Welcome 🎉");
+    navigate("/");
+
+  } catch (err) {
+    setLoading(false);
+    error(err.response?.data?.message || "Signup failed. Try again.");
+  }
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   success("Account created! Please login 🎉");
+    //   navigate("/login");
+    // }, 1500);
   };
 
   // Handle google login
-  const handleGoogleSignup = async () => {
+const handleGoogleSignup = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user   = result.user;
 
-    success(`Account created! Welcome ${user.displayName} 🎉`);
+    const response = await axios.post("http://localhost:5000/api/auth/google", {
+      name:     user.displayName,
+      email:    user.email,
+      googleId: user.uid,
+      photo:    user.photoURL,
+    });
+
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("user",  JSON.stringify(response.data.user));
+
+    success(`Account created! Welcome ${response.data.user.firstName} 🎉`);
     navigate("/");
 
   } catch (err) {

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "../../../Context/ToastContext.jsx";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider }  from "../../../firebase/firebase";
+import axios from "axios";
 import "./Auth.css";
 import Logo from "../../../assets/Logo.png";
 
@@ -41,13 +42,26 @@ export default function Login() {
     return newErrors;
   };
 // handle google login
-  const handleGoogleLogin = async () => {
+const handleGoogleLogin = async () => {
   try {
+    // Step 1 — Firebase se Google login
     const result = await signInWithPopup(auth, provider);
     const user   = result.user;
 
-    console.log("Google User:", user);
-    success(`Welcome ${user.displayName}! 👋`);
+    // Step 2 — Backend ko data bhejo
+    const response = await axios.post("http://localhost:5000/api/auth/google", {
+      name:     user.displayName,
+      email:    user.email,
+      googleId: user.uid,
+      photo:    user.photoURL,
+    });
+
+    // Step 3 — Token save karo
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("user",  JSON.stringify(response.data.user));
+
+    // Step 4 — Success
+    success(`Welcome ${response.data.user.firstName}! 👋`);
     navigate("/");
 
   } catch (err) {
@@ -57,7 +71,7 @@ export default function Login() {
 };
 
   // Handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
@@ -66,12 +80,30 @@ export default function Login() {
       return;
     }
     setLoading(true);
+    try {
+    const response = await axios.post("http://localhost:5000/api/auth/login", {
+      email:    form.email,
+      password: form.password,
+    });
+
+    // Token save karo
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("user",  JSON.stringify(response.data.user));
+
+    setLoading(false);
+    success("Welcome back! 👋");
+    navigate("/");
+
+  } catch (err) {
+    setLoading(false);
+    error(err.response?.data?.message || "Login failed. Try again.");
+  }
     // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      success("Welcome back! 👋");
-      navigate("/"); // redirect to home after login
-    }, 1500);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   success("Welcome back! 👋");
+    //   navigate("/"); // redirect to home after login
+    // }, 1500);
   };
 
   return (

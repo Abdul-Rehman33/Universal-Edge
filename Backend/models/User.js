@@ -4,7 +4,7 @@
 // ============================================================
 
 const mongoose = require("mongoose"); // MongoDB se connect karne ke liye
-const bcrypt   = require("bcryptjs"); // Password hash karne ke liye
+const bcrypt = require("bcryptjs"); // Password hash karne ke liye
 
 // ─────────────────────────────────────────────────────────────
 //  USER SCHEMA
@@ -13,29 +13,29 @@ const userSchema = new mongoose.Schema(
   {
     // ── First Name ─────────────────────────────────────────
     firstName: {
-      type:      String,
-      required:  [true, "First name is required"],
-      trim:      true,           // spaces hata do start/end se
+      type: String,
+      required: [true, "First name is required"],
+      trim: true,           // spaces hata do start/end se
       minlength: [2, "First name must be at least 2 characters"],
       maxlength: [30, "First name cannot exceed 30 characters"],
     },
 
     // ── Last Name ──────────────────────────────────────────
     lastName: {
-      type:      String,
-      required:  [true, "Last name is required"],
-      trim:      true,
+      type: String,
+      required: [true, "Last name is required"],
+      trim: true,
       minlength: [2, "Last name must be at least 2 characters"],
       maxlength: [30, "Last name cannot exceed 30 characters"],
     },
 
     // ── Email ──────────────────────────────────────────────
     email: {
-      type:      String,
-      required:  [true, "Email is required"],
-      unique:    true,           // database mein duplicate email nahi hogi
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,           // database mein duplicate email nahi hogi
       lowercase: true,           // hamesha lowercase mein save hoga
-      trim:      true,
+      trim: true,
       match: [
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/,
         "Please enter a valid email address",
@@ -46,27 +46,50 @@ const userSchema = new mongoose.Schema(
     // Pakistani number formats:
     // 03001234567 / +923001234567 / 923001234567
     phone: {
-      type:     String,
-      required: [true, "Phone number is required"],
-      trim:     true,
-      match: [
-        /^(\+92|92|0)(3\d{9})$/,
-        "Please enter a valid Pakistani phone number (e.g. 03001234567)",
+      type: String,
+      required: [
+        function () {
+          return !this.googleId;
+        },
+        "Phone number is required",
       ],
+      trim: true,
+      validate: {
+        validator: function (v) {
+          if (!v && this.googleId) return true;
+          return /^(\+92|92|0)(3\d{9})$/.test(v);
+        },
+        message: "Please enter a valid Pakistani phone number (e.g. 03001234567)",
+      },
     },
 
     // ── Password ───────────────────────────────────────────
     password: {
-      type:      String,
-      required:  [true, "Password is required"],
+      type: String,
+      required: [
+        function () {
+          return !this.googleId;
+        },
+        "Password is required"
+      ],
       minlength: [6, "Password must be at least 6 characters"],
-      select:    false, // password kabhi bhi response mein nahi aayega
+      select: false, // password kabhi bhi response mein nahi aayega
+    },
+
+    googleId: {
+      type: String,
+      default: null,
+    },
+
+    photo: {
+      type: String,
+      default: "",
     },
 
     // ── Role ───────────────────────────────────────────────
     role: {
-      type:    String,
-      enum:    ["user", "admin"], // sirf yeh 2 values allowed hain
+      type: String,
+      enum: ["user", "admin"], // sirf yeh 2 values allowed hain
       default: "user",            // naya user hamesha "user" hoga
     },
   },

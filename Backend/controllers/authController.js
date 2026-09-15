@@ -4,7 +4,7 @@
 // ============================================================
 
 const User = require("../models/User");
-const jwt  = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 // ─────────────────────────────────────────────────────────────
 //  HELPER — JWT Token Generate karo
@@ -64,12 +64,12 @@ const register = async (req, res) => {
       message: "Account created successfully!",
       token,
       user: {
-        id:        user._id,
+        id: user._id,
         firstName: user.firstName,
-        lastName:  user.lastName,
-        email:     user.email,
-        phone:     user.phone,
-        role:      user.role,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
       },
     });
 
@@ -146,12 +146,12 @@ const login = async (req, res) => {
       message: "Login successful!",
       token,
       user: {
-        id:        user._id,
+        id: user._id,
         firstName: user.firstName,
-        lastName:  user.lastName,
-        email:     user.email,
-        phone:     user.phone,
-        role:      user.role,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
       },
     });
 
@@ -177,12 +177,12 @@ const getMe = async (req, res) => {
     res.status(200).json({
       success: true,
       user: {
-        id:        user._id,
+        id: user._id,
         firstName: user.firstName,
-        lastName:  user.lastName,
-        email:     user.email,
-        phone:     user.phone,
-        role:      user.role,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
         createdAt: user.createdAt,
       },
     });
@@ -197,6 +197,88 @@ const getMe = async (req, res) => {
 };
 
 // ─────────────────────────────────────────────────────────────
+//  GOOGLE AUTH — Google se login ya signup
+//  Route:  POST /api/auth/google
+//  Access: Public
+// ─────────────────────────────────────────────────────────────
+const googleAuth = async (req, res) => {
+  try {
+    const { email, firstName, lastName, displayName, googleId, uid, photo, photoURL } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required for Google login",
+      });
+    }
+
+    const gId = googleId || uid;
+
+    // ── 1. Check karo user pehle se exist karta hai? ────────
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Existing user: agar googleId nahi tha toh link karo
+      let updated = false;
+      if (!user.googleId && gId) {
+        user.googleId = gId;
+        updated = true;
+      }
+      if (!user.photo && (photo || photoURL)) {
+        user.photo = photo || photoURL;
+        updated = true;
+      }
+      if (updated) {
+        await user.save();
+      }
+    } else {
+      // Naya user banao
+      let fName = firstName;
+      let lName = lastName;
+
+      if (!fName && displayName) {
+        const parts = displayName.trim().split(" ");
+        fName = parts[0] || "User";
+        lName = parts.slice(1).join(" ") || "Google";
+      }
+
+      user = await User.create({
+        firstName: fName || "Google",
+        lastName: lName || "User",
+        email,
+        googleId: gId,
+        photo: photo || photoURL || "",
+      });
+    }
+
+    // ── 2. JWT Token generate karo ─────────────────────────
+    const token = generateToken(user._id);
+
+    // ── 3. Response bhejo ──────────────────────────────────
+    res.status(200).json({
+      success: true,
+      message: "Google login successful!",
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone || "",
+        role: user.role,
+        photo: user.photo || "",
+      },
+    });
+  } catch (error) {
+    console.error("❌ Google Auth Error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Server error during Google authentication.",
+    });
+  }
+};
+
+// ─────────────────────────────────────────────────────────────
 //  EXPORT
 // ─────────────────────────────────────────────────────────────
-module.exports = { register, login, getMe };
+module.exports = { register, login, googleAuth, getMe };
