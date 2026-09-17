@@ -41,6 +41,9 @@ function AnimatedRoutes() {
 
   // Route ke hisab se behtareen aur premium animations
   const getAnimationClass = (pathname) => {
+    // Admin pages: Disable wrapper animation so position:fixed sidebar stays locked on viewport
+    if (pathname.startsWith("/admin")) return "";
+
     // Auth pages: 3D Flip effect
     if (pathname === "/login" || pathname === "/signup") return "page-transition-flip";
 
