@@ -57,12 +57,17 @@ const handleGoogleLogin = async () => {
     });
 
     // Step 3 — Token save karo
+    const loggedUser = response.data.user;
     localStorage.setItem("token", response.data.token);
-    localStorage.setItem("user",  JSON.stringify(response.data.user));
+    localStorage.setItem("user",  JSON.stringify(loggedUser));
 
     // Step 4 — Success
-    success(`Welcome ${response.data.user.firstName}! 👋`);
-    navigate("/");
+    success(`Welcome ${loggedUser.firstName}! 👋`);
+    if (loggedUser.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
 
   } catch (err) {
     error("Google login failed. Please try again.");
@@ -87,12 +92,17 @@ const handleGoogleLogin = async () => {
     });
 
     // Token save karo
+    const loggedUser = response.data.user;
     localStorage.setItem("token", response.data.token);
-    localStorage.setItem("user",  JSON.stringify(response.data.user));
+    localStorage.setItem("user",  JSON.stringify(loggedUser));
 
     setLoading(false);
     success("Welcome back! 👋");
-    navigate("/");
+    if (loggedUser.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
 
   } catch (err) {
     setLoading(false);

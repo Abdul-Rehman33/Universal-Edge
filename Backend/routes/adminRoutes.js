@@ -7,26 +7,38 @@ const express = require("express");
 const router  = express.Router();
 
 // Controllers
-const { testAdmin, getDashboardStats } = require("../controllers/adminController");
+const {
+  testAdmin,
+  getDashboardStats,
+  getLowStockProducts,
+  getSalesOverview,
+  getAllUsers,
+  updateUserRole,
+  deleteUser,
+} = require("../controllers/adminController");
 
 // Middleware
-const { protect } = require("../middleware/authMiddleware");
-const { isAdmin } = require("../middleware/adminMiddleware");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 // ─────────────────────────────────────────────────────────────
-//  IMPORTANT:
-//  Har route pe dono middleware lagate hain:
-//  1. protect → JWT verify karo (Authentication)
-//  2. isAdmin → role check karo  (Authorization)
-//
-//  Order matter karta hai:
-//  protect pehle → isAdmin baad mein
+//  All routes: protect (JWT) → adminOnly (role check)
 // ─────────────────────────────────────────────────────────────
 
 // Test route — admin access check karo
-router.get("/test",      protect, isAdmin, testAdmin);
+router.get("/test",            protect, adminOnly, testAdmin);
 
-// Dashboard stats
-router.get("/dashboard", protect, isAdmin, getDashboardStats);
+// Dashboard stats — total counts + recent orders/users
+router.get("/dashboard",       protect, adminOnly, getDashboardStats);
 
-module.exports = router;
+// Low stock products
+router.get("/low-stock",       protect, adminOnly, getLowStockProducts);
+
+// Sales overview — today / week / month
+router.get("/sales",           protect, adminOnly, getSalesOverview);
+
+// User management routes
+router.get("/users",           protect, adminOnly, getAllUsers);
+router.put("/users/:id/role",  protect, adminOnly, updateUserRole);
+router.delete("/users/:id",    protect, adminOnly, deleteUser);
+
+module.exports = router;

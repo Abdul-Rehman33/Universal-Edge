@@ -63,6 +63,20 @@ export default function Navbar() {
   const [searchVal, setSearchVal] = useState("");
   const drawerRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Auth state check
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const isLoggedIn = Boolean(token);
+  const isAdmin = user?.role === "admin";
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    closeMenu();
+    navigate("/login");
+  };
 
   /* Scroll detection */
   useEffect(() => {
@@ -153,9 +167,30 @@ export default function Navbar() {
             )}
           </button>
 
-          <button className="uem-login-btn" onClick={() => navigate("/login")}>
-            Login / Signup
-          </button>
+          {isLoggedIn ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              {isAdmin && (
+                <button
+                  className="uem-login-btn"
+                  style={{ background: "rgba(232,200,122,0.18)", color: "#e8c87a", border: "1px solid rgba(232,200,122,0.35)" }}
+                  onClick={() => navigate("/admin")}
+                >
+                  Admin Panel
+                </button>
+              )}
+              <button
+                className="uem-login-btn"
+                style={{ background: "rgba(224,85,85,0.18)", color: "#e05555", border: "1px solid rgba(224,85,85,0.35)" }}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button className="uem-login-btn" onClick={() => navigate("/login")}>
+              Login / Signup
+            </button>
+          )}
         </div>
 
         {/* Hamburger — mobile only */}
@@ -261,9 +296,30 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-          <button className="uem-login-btn-full" onClick={() => { closeMenu(); navigate("/login"); }}>
-            Login / Signup
-          </button>
+          {isLoggedIn ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+              {isAdmin && (
+                <button
+                  className="uem-login-btn-full"
+                  style={{ background: "rgba(232,200,122,0.18)", color: "#e8c87a", border: "1px solid rgba(232,200,122,0.35)" }}
+                  onClick={() => { closeMenu(); navigate("/admin"); }}
+                >
+                  Admin Panel
+                </button>
+              )}
+              <button
+                className="uem-login-btn-full"
+                style={{ background: "rgba(224,85,85,0.18)", color: "#e05555", border: "1px solid rgba(224,85,85,0.35)" }}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button className="uem-login-btn-full" onClick={() => { closeMenu(); navigate("/login"); }}>
+              Login / Signup
+            </button>
+          )}
         </div>
       </aside>
     </>

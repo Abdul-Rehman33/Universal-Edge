@@ -15,6 +15,12 @@ import NotFound from "./pages/404 page/NotFound.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 
 // ─────────────────────────────────────────────────────────────
+//  ADMIN PAGES IMPORT
+// ─────────────────────────────────────────────────────────────
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import AdminRoute from "./components/Admin/AdminRoute.jsx";
+
+// ─────────────────────────────────────────────────────────────
 //  Context API
 // ─────────────────────────────────────────────────────────────
 import { CartProvider } from "./Context/CartContext.jsx";
@@ -37,18 +43,18 @@ function AnimatedRoutes() {
   const getAnimationClass = (pathname) => {
     // Auth pages: 3D Flip effect
     if (pathname === "/login" || pathname === "/signup") return "page-transition-flip";
-    
+
     // Cart/Checkout: Modal-like Sheet Slide Up
     if (pathname === "/cart" || pathname === "/checkout") return "page-transition-sheet";
-    
+
     // Product Detail: Zoom in effect to draw focus
     if (pathname.startsWith("/products/") && pathname !== "/products") return "page-transition-zoom";
-    
+
     // Products Grid: Modern Slide from right
     if (pathname === "/products") return "page-transition-slide";
-    
+
     // Default (Home, About, Wishlist, etc.): Soft Blur Fade
-    return "page-transition-blur"; 
+    return "page-transition-blur";
   };
 
   return (
@@ -69,6 +75,18 @@ function AnimatedRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/wishlist" element={<Wishlist />} />
+
+        {/* Admin Panel Routes */}
+        <Route path="/admin" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
+        <Route path="/admin/dashboard" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
 
         {/* 404 fallback */}
         <Route path="*" element={<NotFound />} />
